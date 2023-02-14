@@ -1,0 +1,13 @@
+{
+  "federationRoleArn": "arn:aws:iam::XXXXXXXXXXXX:role/<env>-self-service-portal-federation",
+  "accounts": [
+    {"id":  "XXXXXXXXXX_1", "name":  "Example account label 1"},
+    {"id":  "XXXXXXXXXX_2", "name":  "Example account label 2"}
+  ],
+  "regions": [
+    {"id":  "us-east-1", "name": "US East (N. Virginia)"},
+    {"id":  "eu-west-1", "name": "EU (Ireland)"},
+    {"id":  "eu-west-3", "name": "EU (Paris)"}
+  ],
+  "roles": [{"id": "self-service-portal-operation", "name": "Self Service Portal Operation"}]
+}

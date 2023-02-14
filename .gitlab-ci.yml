@@ -1,0 +1,126 @@
+variables:
+  SONAR_PROJECT_NAME: '@ssp/front-end'
+  NPM_CONFIG_CACHE: '$CI_PROJECT_DIR/.npm'
+  APP_STAGE: '$CI_ENVIRONMENT_NAME'
+
+default:
+  image: galilee/stack-deployer:1.1.0
+
+.deploy_template: &deploy_def
+  services:
+    - docker:dind
+  image: docker:latest
+  tags:
+    - aws-deployer
+  stage: buildAndDeploy
+  before_script:
+    - docker info
+  script:
+    - node_modules/.bin/awsd-env -c 'npm run build --prefix app'
+    - echo "Deploy for stage ${APP_STAGE}"
+    - node_modules/.bin/awsd-env -c 'npm run deploy:base --prefix app'
+  artifacts:
+    paths:
+      - .build
+      - build
+    expire_in: 7 weeks
+
+stages:
+  - prepare
+  - test
+  - check
+  - build
+  - buildAndDeploy
+
+prepare:install:
+  stage: prepare
+  cache:
+    paths:
+      - .npm
+  script:
+    - npm install
+  artifacts:
+    paths:
+      - node_modules
+    expire_in: 7 weeks
+  only:
+    - merge_requests
+    - /^main$/
+    - /^release\/v?[0-9]+\.[0-9]+$/
+    - tags
+
+test:code:
+  stage: test
+  script:
+    - npm run lint
+    - npm run type-check
+    - npm test
+  artifacts:
+    paths:
+      - coverage
+    expire_in: 1 day
+  only:
+    - merge_requests
+    - /^main$/
+    - /^release\/v?[0-9]+\.[0-9]+$/
+    - tags
+
+check:code:
+  variables:
+    SONAR_USER_HOME: '${CI_PROJECT_DIR}/.sonar'
+    GIT_DEPTH: '0'
+  stage: check
+  image: galilee/sonar-scanner
+  cache:
+    key: '${CI_JOB_NAME}'
+    paths:
+      - .sonar/cache
+  script:
+    - sonar-scanner -Dsonar.projectName="${SONAR_PROJECT_NAME}" -Dsonar.qualitygate.wait=true -Dsonar.projectKey="gitlab:${CI_PROJECT_ID}"
+  only:
+    - merge_requests
+    - /^main$/
+    - /^release\/v?[0-9]+\.[0-9]+$/
+    - tags
+
+build:app:
+  stage: build
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - build
+    expire_in: 1 day
+  only:
+    - merge_requests
+
+deploy:test:
+  <<: *deploy_def
+  environment:
+    name: test
+  only:
+    - main
+
+deploy:uat:
+  <<: *deploy_def
+  environment:
+    name: uat
+  only:
+    - tags
+  when: manual
+
+deploy:stage:
+  <<: *deploy_def
+  environment:
+    name: stage
+  only:
+    - tags
+  when: manual
+
+deploy:prod:
+  <<: *deploy_def
+  environment:
+    name: prod
+  only:
+    - tags
+  when: manual

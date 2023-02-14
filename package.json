@@ -1,0 +1,72 @@
+{
+  "name": "@ssp/front-end",
+  "version": "0.0.1",
+  "scripts": {
+    "prepare": "husky install && npm run git:submodule:refresh",
+    "git:submodule:refresh": "git submodule sync --recursive && git submodule update --init --recursive --remote",
+    "prettier": "prettier --config ./.prettierrc.js --write \"./**/*.{ts,tsx,js,jsx,json}\"",
+    "lint": "eslint src --cache",
+    "lint:fix": "eslint --fix src --cache",
+    "type-check": "tsc",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "eject": "react-scripts eject",
+    "deploy:base": "awsd deploy -c=aws/config/deployer.conf.js",
+    "deploy": "awsd-env -i galilee/stack-deployer:1.1.0 --tty -c 'npm run deploy:base --prefix app'",
+    "check:version": "node ./lint/scripts/checkVersion.js ./package.json",
+    "changelog:build": "./scripts/changelog/buildChangeLog.js"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@auth0/auth0-react": "^2.0.0",
+    "@aws-sdk/client-ec2": "^3.269.0",
+    "@aws-sdk/client-sts": "^3.267.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "web-vitals": "^3.1.1"
+  },
+  "devDependencies": {
+    "@galilee/aws-deployer": "^2.3.2",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.4.3",
+    "@types/jest": "^29.4.0",
+    "@types/node": "^18.13.0",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.10",
+    "@typescript-eslint/eslint-plugin": "^5.52.0",
+    "@typescript-eslint/parser": "^5.52.0",
+    "eslint": "^8.34.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.2",
+    "prettier": "^2.8.4",
+    "react-scripts": "^5.0.1",
+    "typescript": "^4.9.5"
+  }
+}

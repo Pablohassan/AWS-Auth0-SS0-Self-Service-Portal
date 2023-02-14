@@ -1,0 +1,4 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+node ./lint/hooks/check-commit-msg.js './.commitmsgrc.js' "$1"
