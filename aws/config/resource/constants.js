@@ -18,7 +18,7 @@ const constants = {
       base: setCloudFrontOriginAccessControl('Base')
     },
     function: {
-      redirectIndexRequest: setCloudFrontFunction('RedirectIndexRequest'),
+      redirectIndexRequest: setCloudFrontFunction('RedirectIndexRequest')
     }
   },
   s3: {
@@ -32,9 +32,7 @@ const constants = {
     }
   },
   iam: {
-    role: {
-
-    }
+    role: {}
   }
 };
 
@@ -42,7 +40,7 @@ constants.variables = {};
 constants.parameters = {
   globalKmsKeyArn: 'GlobalKmsKeyArn',
   webappCertificateArn: 'WebAppCertificateArn',
-  webappBaseDomainName: 'WebAppBaseDomainName',
+  webappBaseDomainName: 'WebAppBaseDomainName'
 };
 
 module.exports = constants;

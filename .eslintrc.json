@@ -27,14 +27,7 @@
     "airbnb-typescript",
     "plugin:prettier/recommended" // Make sure this is always the last element in the array.
   ],
-  "plugins": [
-    "import",
-    "jsx-a11y",
-    "react",
-    "react-hooks",
-    "simple-import-sort",
-    "prettier"
-  ],
+  "plugins": ["import", "jsx-a11y", "react", "react-hooks", "simple-import-sort", "prettier"],
   "rules": {
     "no-unsafe-optional-chaining": "off",
     "no-nested-ternary": "off",
