@@ -3,6 +3,7 @@ import {useContext} from 'react';
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import {Auth0Provider} from '@auth0/auth0-react';
 import {Loading} from '@nextui-org/react';
 import Navbar from './components/Navbar';
@@ -10,11 +11,15 @@ import CredentialsProvider from './providers/CredentialsProvider';
 import RouterProviderSelf from './providers/RouterProviderSelf';
 import AwsProvider, {AccountContext, RegionContext, RoleContext} from './providers/AwsProvider';
 =======
+=======
+>>>>>>> 3ad5f09 ([Integration] Chore : integration rusmir code)
 import Navbar from './components/Navbar';
 import CredentialsProvider from './providers/CredentialsProvider';
 import RouterProviderSelf from './providers/RouterProviderSelf';
 import {AccountContext, RegionContext, RoleContext} from './providers/AwsProvider';
 =======
+=======
+>>>>>>> eec4707 ([Integration] Chore : integration rusmir code)
 import {Auth0Provider} from '@auth0/auth0-react';
 import {Loading} from '@nextui-org/react';
 import Navbar from './components/Navbar';
@@ -98,6 +103,7 @@ export default function App() {
       Waiting for configuration...
     </Loading>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import {useAuth0} from '@auth0/auth0-react';
 =======
@@ -166,5 +172,38 @@ export default function App() {
 =======
 >>>>>>> 33001af ([Integration] Chore : add last rusmir code part)
 >>>>>>> 77ccc13 ([Integration] Chore : add last rusmir code part)
+=======
+>>>>>>> 33001af ([Integration] Chore : add last rusmir code part)
+=======
+=======
+import {useAuth0} from '@auth0/auth0-react';
+import Navbar from './components/Navbar';
+import CredentialsProvider from './providers/CredentialsProvider';
+import LoginPage from './pages/LoginPage';
+import RouterProviderSelf from './providers/RouterProviderSelf';
+import AwsProvider, {AccountContext, RegionContext, RoleContext} from './providers/AwsProvider';
+
+export default function App() {
+  const {isAuthenticated} = useAuth0();
+  const [account] = useContext(AccountContext);
+  const [region] = useContext(RegionContext);
+  const [role] = useContext(RoleContext);
+
+  return isAuthenticated ? (
+    <AwsProvider>
+      <CredentialsProvider>
+        {credentials => (
+          <>
+            <Navbar account={account} region={region} role={role} credentials={credentials.credentials} />
+            <RouterProviderSelf account={account} region={region} role={role} credentials={credentials.credentials} />
+          </>
+        )}
+      </CredentialsProvider>
+    </AwsProvider>
+  ) : (
+    <LoginPage />
+>>>>>>> 3d7419c ([Integration] Chore : integration rusmir code)
+>>>>>>> eec4707 ([Integration] Chore : integration rusmir code)
+>>>>>>> 3ad5f09 ([Integration] Chore : integration rusmir code)
   );
 }
