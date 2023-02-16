@@ -9,7 +9,7 @@ interface Props {
   startTime: number;
 }
 
-const ListInstancesTable: React.FC<Props> = ({instances, startInstance, stopInstance, startTime}) => {
+const ListInstancesTable: React.FC<Props> = ({instances, startInstance, stopInstance}) => {
   let delay: Boolean = false;
 
   return (
@@ -62,7 +62,10 @@ const ListInstancesTable: React.FC<Props> = ({instances, startInstance, stopInst
                   <Button color="secondary" onClick={() => startInstance(instance?.InstanceId)}>
                     Start
                   </Button>
-                ) : instance?.State?.Code === 64 || instance?.State?.Code === 48 || instance?.State?.Code === 32 || instance?.State?.Code === 0 ? (
+                ) : instance?.State?.Code === 64 ||
+                  instance?.State?.Code === 48 ||
+                  instance?.State?.Code === 32 ||
+                  instance?.State?.Code === 0 ? (
                   <Button size="md" disabled>
                     <Loading type="points" color="success" />
                   </Button>

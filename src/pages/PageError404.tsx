@@ -11,7 +11,7 @@ export default function NotFoundPage() {
             <span>Oops!</span> Page not found
           </h6>
 
-          <p>The page you’re looking for doesn’t exist.</p>
+          <h2>The page you’re looking for doesn’t exist.</h2>
 
           <Link to="/">Go home</Link>
         </div>

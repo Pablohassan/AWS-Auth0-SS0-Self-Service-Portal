@@ -39,7 +39,7 @@ export default function LoginPage() {
             }}
           >
             <LoginButton />
-            {error && <p>Authentification error</p>}
+            {error && <Text>Authentification error</Text>}
           </Card.Header>
         </Card>
       </Grid>

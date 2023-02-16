@@ -18,7 +18,15 @@ export default function App() {
       <CredentialsProvider>
         {credentials => (
           <>
-            <Navbar account={account} region={region} role={role} credentials={credentials.credentials} />
+            <Navbar
+              account={account}
+              region={region}
+              role={role}
+              credentials={credentials.credentials}
+              accounts={[]}
+              regions={[]}
+              roles={[]}
+            />
             <RouterProviderSelf account={account} region={region} role={role} credentials={credentials.credentials} />
           </>
         )}

@@ -23,29 +23,6 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
   const [startTime, setStartTime] = useState<{[key: string]: number}>({});
   const [selectedInstanceId, setSelectedInstanceId] = useState<string | undefined>(undefined);
 
-  // Load all instances of account region and role  use default state if not sepcified
-  useEffect(() => {
-    if (account && role && region) {
-      loadInstances();
-    }
-  }, [account, role, region]);
-
-  // refresh instances  if state selectedInstanceId or instance change
-  useEffect(() => {
-    const refreshInstances = async () => {
-      await loadInstances();
-    };
-
-    if (selectedInstanceId && instances) {
-      const selectedInstance = instances.find(instance => instance?.InstanceId === selectedInstanceId);
-      if (!selectedInstance) {
-        setSelectedInstanceId(undefined);
-      }
-    }
-    refreshInstances();
-    return () => {};
-  }, [instances, selectedInstanceId]);
-
   // intitialisation of EC2 Client with credentials from CredentialProvider
   const createEC2Client = async () => {
     if (!credentials?.AccessKeyId || !credentials?.SecretAccessKey) return;
@@ -93,12 +70,35 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
       );
     } catch (err: any) {
       if (err.code) {
-        console.log(err.code);
+        throw new Error(err.code);
       } else {
-        console.log(err);
+        throw err;
       }
     }
   };
+
+  // Load all instances of account region and role  use default state if not sepcified
+  useEffect(() => {
+    if (account && role && region) {
+      loadInstances();
+    }
+  }, [account, role, region]);
+
+  // refresh instances if state selectedInstanceId or instance change
+  useEffect(() => {
+    const refreshInstances = async () => {
+      await loadInstances();
+    };
+
+    if (selectedInstanceId && instances) {
+      const selectedInstance = instances.find(instance => instance?.InstanceId === selectedInstanceId);
+      if (!selectedInstance) {
+        setSelectedInstanceId(undefined);
+      }
+    }
+    refreshInstances();
+    return () => {};
+  }, [instances, selectedInstanceId]);
 
   const navigate = useNavigate();
 
@@ -201,12 +201,17 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
     <AwsProvider>
       <Container css={{display: 'flex', flexDirection: 'row-reverse', margin: 'auto'}}>
         {/* eslint-disable-next-line react/jsx-no-bind */}
-        <Button css={{m: 10, mr: '5%'}} auto ghost rounded color="gradient" bordered onClick={handleButtonClick}>
+        <Button css={{m: 10, mr: '5%'}} auto ghost rounded color="gradient" bordered onClick={() => handleButtonClick}>
           Refresh
         </Button>
       </Container>
       {account && region && role && instances && (
-        <ListInstancesTable instances={instances} startTime={startTime[Object.keys(startTime)[0]]} startInstance={startInstance} stopInstance={stopInstance} />
+        <ListInstancesTable
+          instances={instances}
+          startTime={startTime[Object.keys(startTime)[0]]}
+          startInstance={startInstance}
+          stopInstance={stopInstance}
+        />
       )}
       <Toaster />
     </AwsProvider>

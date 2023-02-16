@@ -1,8 +1,8 @@
-import {useAuth0} from '@auth0/auth0-react';
-import React from 'react';
+import { useAuth0 } from "@auth0/auth0-react";
+import React from "react";
 
 const Profile = () => {
-  const {user, isAuthenticated, isLoading} = useAuth0();
+  const { user, isAuthenticated, isLoading } = useAuth0();
 
   if (isLoading) {
     return <div>Loading ...</div>;
@@ -17,7 +17,7 @@ const Profile = () => {
         <ul>
           {Object.keys(user).map((objKey, i) => (
             <li key={i}>
-              {objKey}: {user[objKey]}{' '}
+              {objKey}: {user[objKey]}{" "}
             </li>
           ))}
         </ul>
