@@ -104,6 +104,29 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
     return () => clearTimeout(timer);
   }, [instances, selectedInstanceId, loadInstances]);
 
+  // Load all instances of account region and role  use default state if not sepcified
+  useEffect(() => {
+    if (account && role && region) {
+      loadInstances();
+    }
+  }, [account, role, region]);
+
+  // refresh instances if state selectedInstanceId or instance change
+  useEffect(() => {
+    const refreshInstances = async () => {
+      await loadInstances();
+    };
+
+    if (selectedInstanceId && instances) {
+      const selectedInstance = instances.find(instance => instance?.InstanceId === selectedInstanceId);
+      if (!selectedInstance) {
+        setSelectedInstanceId(undefined);
+      }
+    }
+    refreshInstances();
+    return () => {};
+  }, [instances, selectedInstanceId]);
+
   const navigate = useNavigate();
 
   function handleButtonClick() {

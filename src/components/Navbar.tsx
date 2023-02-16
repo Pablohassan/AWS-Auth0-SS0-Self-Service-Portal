@@ -48,6 +48,19 @@ const NavbarGlobal: React.FC<Props> = ({children}) => {
   const handleRegion = (event: any) => setRegion(event.currentTarget.value);
   const handleRole = (event: any) => setRole(event.currentTarget.value);
 
+  // en attente d'upload du fichier config.json
+  // async function fetchData(){;
+  // const response = await fetch('https://test.self-service-portal.cp3s.xyz/config.json');
+  //   const data = await response.json();
+  //   return Promise.resolve(data);
+  // }
+
+  // useEffect(() => {
+  //   fetchData()
+  //     .then(data => setData(data))
+  //     .catch(error => console.error(error));
+  // }, []);
+
   return user ? (
     <Grid css={{mw: '1400px'}}>
       <Navbar isBordered isCompact variant="sticky">
