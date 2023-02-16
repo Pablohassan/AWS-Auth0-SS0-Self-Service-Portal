@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 <<<<<<< HEAD
 =======
 import {Auth0Provider} from '@auth0/auth0-react';
+<<<<<<< HEAD
 // eslint-disable-next-line import/no-extraneous-dependencies
 >>>>>>> 3d7419c ([Integration] Chore : integration rusmir code)
 import {BrowserRouter} from 'react-router-dom';
@@ -10,16 +11,28 @@ import App from './App';
 <<<<<<< HEAD
 import {ConfigProvider} from './providers/ConfigProvider';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import ConfigProvider from './providers/ConfigProvider';
 >>>>>>> 4945873 ([SSP] Chore : 0.0.3  conf.json move auth0Provider in app)
 =======
+=======
+>>>>>>> fa02cf2 ([SSP] Chore : Fixed linter errors)
 <<<<<<< HEAD
 import Auth0Provider from './providers/Auth0Provider';
 import AwsProvider from './providers/AwsProvider';
 =======
 >>>>>>> 33001af ([Integration] Chore : add last rusmir code part)
+<<<<<<< HEAD
 >>>>>>> 77ccc13 ([Integration] Chore : add last rusmir code part)
+=======
+=======
+=======
+import {BrowserRouter} from 'react-router-dom';
+import App from './App';
+>>>>>>> 06a0e2e ([SSP] Chore : Fixed linter errors)
+>>>>>>> 3177d30 ([SSP] Chore : Fixed linter errors)
+>>>>>>> fa02cf2 ([SSP] Chore : Fixed linter errors)
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -63,7 +76,7 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <BrowserRouter>
     <React.StrictMode>
-      <Auth0Provider domain={domain} clientId={clientId} redirectUri={window.location.origin}>
+      <Auth0Provider domain={domain} clientId={clientId}>
         <App />
       </Auth0Provider>
     </React.StrictMode>
@@ -76,6 +89,9 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 reportWebVitals(console.log);
 >>>>>>> 3d7419c ([Integration] Chore : integration rusmir code)
+=======
+>>>>>>> 06a0e2e ([SSP] Chore : Fixed linter errors)

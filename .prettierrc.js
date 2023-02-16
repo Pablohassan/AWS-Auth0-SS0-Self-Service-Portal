@@ -5,12 +5,18 @@ module.exports = {
   semi: true,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   endOfLine: 'lf',
 =======
 >>>>>>> 06a0e2e ([SSP] Chore : Fixed linter errors)
 =======
   endOfLine: 'lf',
 >>>>>>> 14032dd ([SSP] Chore : 0.0.2 Fix conf.json and add prettier , change size of  buttons)
+=======
+  endOfLine: 'lf',
+=======
+>>>>>>> 06a0e2e ([SSP] Chore : Fixed linter errors)
+>>>>>>> fa02cf2 ([SSP] Chore : Fixed linter errors)
   singleQuote: true,
   jsxSingleQuote: false,
   trailingComma: 'none',
