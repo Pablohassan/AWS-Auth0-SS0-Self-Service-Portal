@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from 'react'; // eslint-disable-line
+import {useContext} from 'react';
 import {useAuth0} from '@auth0/auth0-react';
 import {Grid, Navbar, Text} from '@nextui-org/react';
 import {Credentials} from '@aws-sdk/client-sts';
