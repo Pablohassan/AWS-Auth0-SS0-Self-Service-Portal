@@ -109,7 +109,7 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
     if (account && role && region) {
       loadInstances();
     }
-  }, [account, role, region]);
+  }, [account, role, region]); // eslint-disable-line
 
   // refresh instances if state selectedInstanceId or instance change
   useEffect(() => {
@@ -125,7 +125,7 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
     }
     refreshInstances();
     return () => {};
-  }, [instances, selectedInstanceId]);
+  }, [instances, selectedInstanceId]); // eslint-disable-line
 
   const navigate = useNavigate();
 
