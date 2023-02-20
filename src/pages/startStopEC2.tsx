@@ -49,7 +49,6 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
     if (!stsCredentials?.AccessKeyId || !stsCredentials?.SecretAccessKey) return null;
     // We pass the credentials of assumed role to create the EC2 client.
     return new EC2Client({
-      region,
       credentials: {
         accessKeyId: stsCredentials?.AccessKeyId,
         secretAccessKey: stsCredentials?.SecretAccessKey,
@@ -71,7 +70,7 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
       if (err.code || err.message) {
         throw err.code || err.message;
       } else {
-        throw err;
+        console.log(err);
       }
     }
   }, [createEC2Client]);
@@ -105,13 +104,15 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
   }, [instances, selectedInstanceId, loadInstances]);
 
   // Load all instances of account region and role  use default state if not sepcified
+
   useEffect(() => {
     if (account && role && region) {
       loadInstances();
     }
-  }, [account, role, region]); // eslint-disable-line
+  }, [account, role, region]);
 
-  // refresh instances if state selectedInstanceId or instance change
+  // Refresh instances list if the selected instance or the instance state changes.
+
   useEffect(() => {
     const refreshInstances = async () => {
       await loadInstances();
@@ -123,9 +124,10 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
         setSelectedInstanceId(undefined);
       }
     }
+    if (instances?.every(instance => instance?.State?.Code === 80 || instance?.State?.Code === 16)) return;
     refreshInstances();
-    return () => {};
-  }, [instances, selectedInstanceId]); // eslint-disable-line
+    return () => {}; // eslint-disable-line
+  }, [instances, selectedInstanceId, loadInstances]);
 
   const navigate = useNavigate();
 
@@ -173,6 +175,7 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
         setStartTime({[selectedInstanceId]: Date.now()});
         await loadInstances();
       }
+
       if (instance_state === 16) {
         toast.success(`Instances  ${selectedInstanceId} est demmaré`);
       }

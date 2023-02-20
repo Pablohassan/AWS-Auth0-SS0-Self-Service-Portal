@@ -187,9 +187,6 @@
     "roles": [
         {"id": "galilee_roles", "name": "Role test self-service EC2"},
         {"id": "self-service-portal-operation", "name": "Self Service Portal Operation"}
-      
-        
-    
     ],
   
     "defaultRole":
