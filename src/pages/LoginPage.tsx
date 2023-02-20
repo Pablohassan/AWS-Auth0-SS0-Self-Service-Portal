@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 
+=======
+import React from 'react';
+>>>>>>> 28d98e3 ([SSP] Chore : Fixed linter)
 import {Grid, Container, Card, Text} from '@nextui-org/react';
 import {useAuth0} from '@auth0/auth0-react';
 import LoginButton from '../components/LoginButton';

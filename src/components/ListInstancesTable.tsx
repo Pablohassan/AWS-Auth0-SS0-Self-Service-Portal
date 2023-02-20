@@ -1,3 +1,4 @@
+import React from 'react';
 import {Instance} from '@aws-sdk/client-ec2';
 import {Button, Grid, Input, Loading, Table} from '@nextui-org/react';
 import moment from 'moment';

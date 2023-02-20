@@ -59,6 +59,7 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
     if (!stsCredentials?.AccessKeyId || !stsCredentials?.SecretAccessKey) return null;
     // We pass the credentials of assumed role to create the EC2 client.
     return new EC2Client({
+      region,
       credentials: {
         accessKeyId: stsCredentials?.AccessKeyId,
         secretAccessKey: stsCredentials?.SecretAccessKey,
@@ -91,6 +92,7 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
       setInstances([]);
       loadInstances();
     }
+    // ici je desactive l'erreur du linter qui demande d'y inclure loadinstances ce qui créé un boucle
   }, [account, role, region]); // eslint-disable-line
 
   // Refresh instances list if the selected instance or the instance state changes.
