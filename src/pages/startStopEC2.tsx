@@ -148,7 +148,6 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
 
         await loadInstances();
       }
-
       if (instance_state === 16) {
         toast.success(`Instances  ${selectedInstanceId} est demmaré`);
       }
