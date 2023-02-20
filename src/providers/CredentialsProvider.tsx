@@ -1,4 +1,4 @@
-import {FC, ReactElement, useEffect, useState} from 'react';
+import React, {FC, ReactElement, useEffect, useState} from 'react';
 import {AssumeRoleWithWebIdentityCommand, STSClient, Credentials} from '@aws-sdk/client-sts';
 import {useAuth0} from '@auth0/auth0-react';
 import awsdata from '../assets/awsdata.json';

@@ -1,8 +1,23 @@
 import {createContext, useState} from 'react';
 
-export const AccountContext = createContext<[string, React.Dispatch<React.SetStateAction<string>>]>(['', () => {}]);
-export const RegionContext = createContext<[string, React.Dispatch<React.SetStateAction<string>>]>(['', () => {}]);
-export const RoleContext = createContext<[string, React.Dispatch<React.SetStateAction<string>>]>(['', () => {}]);
+export const AccountContext = createContext<[string, React.Dispatch<React.SetStateAction<string>>]>([
+  '',
+  () => {
+    console.log('No update account provided');
+  }
+]);
+export const RegionContext = createContext<[string, React.Dispatch<React.SetStateAction<string>>]>([
+  '',
+  () => {
+    console.log('No update region provided');
+  }
+]);
+export const RoleContext = createContext<[string, React.Dispatch<React.SetStateAction<string>>]>([
+  '',
+  () => {
+    console.log('No update role provided');
+  }
+]);
 
 interface Props {
   children?: any;
