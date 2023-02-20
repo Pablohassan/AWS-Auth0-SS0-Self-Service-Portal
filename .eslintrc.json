@@ -10,14 +10,18 @@
     },
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 28d98e3 ([SSP] Chore : Fixed linter)
+=======
+>>>>>>> fe53776 ([SSP] Chore : Fixed linter)
     "parser": "@typescript-eslint/parser",
     "settings": {
       "react": {
         "pragma": "React",
         "fragment": "Fragment",
         "version": "detect"
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
     "project": "./tsconfig.eslint.json"
@@ -88,6 +92,8 @@
 >>>>>>> 3d7419c ([Integration] Chore : integration rusmir code)
 =======
 >>>>>>> 28d98e3 ([SSP] Chore : Fixed linter)
+=======
+>>>>>>> fe53776 ([SSP] Chore : Fixed linter)
       }
     },
     "env": {

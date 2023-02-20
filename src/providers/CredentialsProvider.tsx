@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import React, {FC, useEffect, useState} from 'react';
-=======
-import React, {FC, ReactElement, useEffect, useState} from 'react';
->>>>>>> 28d98e3 ([SSP] Chore : Fixed linter)
 import {AssumeRoleWithWebIdentityCommand, STSClient, Credentials} from '@aws-sdk/client-sts';
 import {useAuth0} from '@auth0/auth0-react';
 import {Loading} from '@nextui-org/react';
