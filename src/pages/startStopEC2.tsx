@@ -25,6 +25,16 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
   const [selectedInstanceId, setSelectedInstanceId] = useState<string | undefined>(undefined);
   const [visible, setVisible] = useState(true);
 
+  // Load all instances of account region and role  use default state if not sepcified
+
+  useEffect(() => {
+    if (account && role && region) {
+      loadInstances();
+    }
+  }, [account, role, region]);
+
+  console.log(instances?.[0]?.State?.Code);
+
   // intitialisation of EC2 Client with credentials from CredentialProvider
   const createEC2Client = useCallback(async () => {
     if (!credentials?.AccessKeyId || !credentials?.SecretAccessKey) return null;
@@ -175,7 +185,6 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
         setStartTime({[selectedInstanceId]: Date.now()});
         await loadInstances();
       }
-
       if (instance_state === 16) {
         toast.success(`Instances  ${selectedInstanceId} est demmaré`);
       }
