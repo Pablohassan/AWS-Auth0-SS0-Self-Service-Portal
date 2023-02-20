@@ -59,7 +59,6 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
     if (!stsCredentials?.AccessKeyId || !stsCredentials?.SecretAccessKey) return null;
     // We pass the credentials of assumed role to create the EC2 client.
     return new EC2Client({
-      region,
       credentials: {
         accessKeyId: stsCredentials?.AccessKeyId,
         secretAccessKey: stsCredentials?.SecretAccessKey,
@@ -189,6 +188,7 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
         setStartTime({[selectedInstanceId]: Date.now()});
         await loadInstances();
       }
+      console.log('reloaded');
       if (instance_state === 16) {
         toast.success(`Instances  ${selectedInstanceId} est demmaré`);
       }
