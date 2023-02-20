@@ -25,6 +25,7 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
   const [selectedInstanceId, setSelectedInstanceId] = useState<string | undefined>(undefined);
 
   // intitialisation of EC2 Client with credentials from CredentialProvider
+  // eslint-disable-next-line
   const createEC2Client = async () => {
     if (!credentials?.AccessKeyId || !credentials?.SecretAccessKey) return;
 
@@ -71,9 +72,9 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
       );
     } catch (err: any) {
       if (err.code) {
-        console.log(err.code);
+        throw err.code;
       } else {
-        console.log(err);
+        throw err;
       }
     }
   }, [createEC2Client]);
@@ -83,7 +84,7 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
     if (account && role && region) {
       loadInstances();
     }
-  }, [account, role, region]);
+  }, [account, role, region]); // eslint-disable-line
 
   // Refresh instances list if the selected instance or the instance state changes.
 
@@ -148,7 +149,6 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
 
         await loadInstances();
       }
-
       if (instance_state === 16) {
         toast.success(`Instances  ${selectedInstanceId} est demmaré`);
       }
