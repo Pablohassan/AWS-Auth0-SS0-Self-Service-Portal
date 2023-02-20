@@ -59,6 +59,7 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
     if (!stsCredentials?.AccessKeyId || !stsCredentials?.SecretAccessKey) return null;
     // We pass the credentials of assumed role to create the EC2 client.
     return new EC2Client({
+      region,
       credentials: {
         accessKeyId: stsCredentials?.AccessKeyId,
         secretAccessKey: stsCredentials?.SecretAccessKey,
@@ -136,7 +137,6 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
     }
     if (instances?.every(instance => instance?.State?.Code === 80 || instance?.State?.Code === 16)) return;
     refreshInstances();
-    return () => {}; // eslint-disable-line
   }, [instances, selectedInstanceId, loadInstances]);
 
   const navigate = useNavigate();
@@ -185,6 +185,7 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
         setStartTime({[selectedInstanceId]: Date.now()});
         await loadInstances();
       }
+
       if (instance_state === 16) {
         toast.success(`Instances  ${selectedInstanceId} est demmaré`);
       }
