@@ -1,4 +1,4 @@
-import {useState, useContext, useEffect} from 'react';
+import {useState, useContext, useEffect, useCallback} from 'react';
 import {AssumeRoleCommand, Credentials, STSClient} from '@aws-sdk/client-sts';
 import {DescribeInstancesCommand, EC2Client, Instance, StartInstancesCommand, StopInstancesCommand} from '@aws-sdk/client-ec2';
 import {Button, Container} from '@nextui-org/react';
@@ -7,6 +7,7 @@ import {useNavigate} from 'react-router-dom';
 import AwsProvider, {AccountContext, RegionContext, RoleContext} from '../providers/AwsProvider';
 import ListInstancesTable from '../components/ListInstancesTable';
 
+// here we define
 interface Props {
   credentials: Credentials | undefined;
   account: string | undefined;
@@ -26,6 +27,8 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
   // intitialisation of EC2 Client with credentials from CredentialProvider
   const createEC2Client = async () => {
     if (!credentials?.AccessKeyId || !credentials?.SecretAccessKey) return;
+
+    // Assume the role of the AWS account created role with new credentials
     const {Credentials: stsCredentials} = await new STSClient({
       region,
       credentials: {
@@ -42,11 +45,9 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
       })
     );
 
-    if (!stsCredentials?.AccessKeyId || !stsCredentials?.SecretAccessKey) return;
-    // We pass the credentials of assumed role
-    // eslint-disable-next-line consistent-return
+    if (!stsCredentials?.AccessKeyId || !stsCredentials?.SecretAccessKey) return; // eslint-disable-line
+    // eslint-disable-next-line
     return new EC2Client({
-      region,
       credentials: {
         accessKeyId: stsCredentials?.AccessKeyId,
         secretAccessKey: stsCredentials?.SecretAccessKey,
@@ -56,13 +57,13 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
     });
   };
   // There we load all instances in our useSate instances
-  const loadInstances = async () => {
+  const loadInstances = useCallback(async () => {
     try {
       const ec2Client = await createEC2Client();
       if (!ec2Client) return;
-
+      // There we get all instances for the given user credentials and AWS region in response
       const response = await ec2Client.send(new DescribeInstancesCommand({}));
-
+      // Store the instances in the component state.
       setInstances(
         response?.Reservations?.flatMap(reservation => reservation.Instances)
           .map(instance => instance)
@@ -70,21 +71,22 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
       );
     } catch (err: any) {
       if (err.code) {
-        throw new Error(err.code);
+        console.log(err.code);
       } else {
-        throw err;
+        console.log(err);
       }
     }
-  };
-
+  }, [createEC2Client]);
   // Load all instances of account region and role  use default state if not sepcified
+
   useEffect(() => {
     if (account && role && region) {
       loadInstances();
     }
-  }, [account, role, region]); // eslint-disable-line
+  }, [account, role, region]);
 
-  // refresh instances if state selectedInstanceId or instance change
+  // Refresh instances list if the selected instance or the instance state changes.
+
   useEffect(() => {
     const refreshInstances = async () => {
       await loadInstances();
@@ -96,9 +98,10 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
         setSelectedInstanceId(undefined);
       }
     }
+    if (instances?.every(instance => instance?.State?.Code === 80 || instance?.State?.Code === 16)) return;
     refreshInstances();
-    return () => {};
-  }, [instances, selectedInstanceId]); // eslint-disable-line
+    return () => {}; // eslint-disable-line
+  }, [instances, selectedInstanceId, loadInstances]);
 
   const navigate = useNavigate();
 
@@ -145,6 +148,7 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
 
         await loadInstances();
       }
+
       if (instance_state === 16) {
         toast.success(`Instances  ${selectedInstanceId} est demmaré`);
       }
@@ -185,6 +189,8 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
             })
           );
         }
+        await loadInstances();
+
         if (instance_state === 80) {
           toast.success(`Instances  ${selectedInstanceId} est arrété`);
         }
@@ -195,26 +201,29 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
     toast.success(`Instances  ${selectedInstanceId} est en cours d'arret`);
   };
 
-  // Refresh instances state
-
   return (
-    <AwsProvider>
-      <Container css={{display: 'flex', flexDirection: 'row-reverse', margin: 'auto'}}>
-        {/* eslint-disable-next-line react/jsx-no-bind */}
-        <Button css={{m: 10, mr: '5%'}} auto ghost rounded color="gradient" bordered onClick={() => handleButtonClick}>
-          Refresh
-        </Button>
-      </Container>
-      {account && region && role && instances && (
-        <ListInstancesTable
-          instances={instances}
-          startTime={startTime[Object.keys(startTime)[0]]}
-          startInstance={startInstance}
-          stopInstance={stopInstance}
-        />
-      )}
-      <Toaster />
-    </AwsProvider>
+    <div>
+      <AwsProvider>
+        <Container css={{display: 'flex', flexDirection: 'row-reverse', margin: 'auto'}}>
+          <Button css={{m: 10, mr: '5%'}} auto ghost rounded color="gradient" bordered onClick={() => handleButtonClick}>
+            Refresh
+          </Button>
+        </Container>
+        {account && region && role && (
+          <div>
+            {instances && (
+              <ListInstancesTable
+                instances={instances}
+                startTime={startTime[Object.keys(startTime)[0]]}
+                startInstance={startInstance}
+                stopInstance={stopInstance}
+              />
+            )}
+          </div> // eslint-disable-line
+        )}
+        <Toaster />
+      </AwsProvider>
+    </div>
   );
 };
 
