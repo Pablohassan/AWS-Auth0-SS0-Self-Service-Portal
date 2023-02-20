@@ -25,9 +25,10 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
   const [selectedInstanceId, setSelectedInstanceId] = useState<string | undefined>(undefined);
 
   // intitialisation of EC2 Client with credentials from CredentialProvider
-  // eslint-disable-next-line
-  const createEC2Client = async () => {
-    if (!credentials?.AccessKeyId || !credentials?.SecretAccessKey) return;
+
+  // intitialisation of EC2 Client with credentials from CredentialProvider
+  const createEC2Client = useCallback(async () => {
+    if (!credentials?.AccessKeyId || !credentials?.SecretAccessKey) return null;
 
     // Assume the role of the AWS account created role with new credentials
     const {Credentials: stsCredentials} = await new STSClient({
@@ -46,9 +47,10 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
       })
     );
 
-    if (!stsCredentials?.AccessKeyId || !stsCredentials?.SecretAccessKey) return; // eslint-disable-line
-    // eslint-disable-next-line
+    if (!stsCredentials?.AccessKeyId || !stsCredentials?.SecretAccessKey) return null;
+    // We pass the credentials of assumed role to create the EC2 client.
     return new EC2Client({
+      region,
       credentials: {
         accessKeyId: stsCredentials?.AccessKeyId,
         secretAccessKey: stsCredentials?.SecretAccessKey,
@@ -56,7 +58,7 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
         expiration: stsCredentials?.Expiration
       }
     });
-  };
+  }, [credentials, account, role, region]);
   // There we load all instances in our useSate instances
   const loadInstances = useCallback(async () => {
     try {
@@ -78,12 +80,12 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
       }
     }
   }, [createEC2Client]);
-  // Load all instances of account region and role  use default state if not sepcified
 
   useEffect(() => {
     if (account && role && region) {
       loadInstances();
     }
+    // ici je desactive l'erreur du linter qui demande d'y inclure loadinstances ce qui créé un boucle
   }, [account, role, region]); // eslint-disable-line
 
   // Refresh instances list if the selected instance or the instance state changes.
@@ -101,7 +103,6 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
     }
     if (instances?.every(instance => instance?.State?.Code === 80 || instance?.State?.Code === 16)) return;
     refreshInstances();
-    return () => {}; // eslint-disable-line
   }, [instances, selectedInstanceId, loadInstances]);
 
   const navigate = useNavigate();
@@ -149,6 +150,7 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
 
         await loadInstances();
       }
+
       if (instance_state === 16) {
         toast.success(`Instances  ${selectedInstanceId} est demmaré`);
       }
@@ -219,7 +221,7 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
                 stopInstance={stopInstance}
               />
             )}
-          </div> // eslint-disable-line
+          </div>
         )}
         <Toaster />
       </AwsProvider>
