@@ -118,6 +118,7 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
 
   useEffect(() => {
     if (account && role && region) {
+      setInstances([]);
       loadInstances();
     }
   }, [account, role, region]);
@@ -125,18 +126,21 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
   // Refresh instances list if the selected instance or the instance state changes.
 
   useEffect(() => {
-    const refreshInstances = async () => {
-      await loadInstances();
-    };
+    const timer = setTimeout(async () => {
+      const refreshInstances = async () => {
+        await loadInstances();
+      };
 
-    if (selectedInstanceId && instances) {
-      const selectedInstance = instances.find(instance => instance?.InstanceId === selectedInstanceId);
-      if (!selectedInstance) {
-        setSelectedInstanceId(undefined);
+      if (selectedInstanceId && instances) {
+        const selectedInstance = instances.find(instance => instance?.InstanceId === selectedInstanceId);
+        if (!selectedInstance) {
+          setSelectedInstanceId(undefined);
+        }
       }
-    }
-    if (instances?.every(instance => instance?.State?.Code === 80 || instance?.State?.Code === 16)) return;
-    refreshInstances();
+      if (instances?.every(instance => instance?.State?.Code === 80 || instance?.State?.Code === 16)) return;
+      refreshInstances();
+    }, 1000);
+    return () => clearTimeout(timer);
   }, [instances, selectedInstanceId, loadInstances]);
 
   const navigate = useNavigate();
