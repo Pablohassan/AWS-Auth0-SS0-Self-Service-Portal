@@ -1,19 +1,18 @@
 import {useState, useContext, useEffect, useCallback} from 'react';
 import {AssumeRoleCommand, Credentials, STSClient} from '@aws-sdk/client-sts';
 import {DescribeInstancesCommand, EC2Client, Instance, StartInstancesCommand, StopInstancesCommand} from '@aws-sdk/client-ec2';
-import {Button, Container} from '@nextui-org/react';
-import toast, {Toaster} from 'react-hot-toast';
 import {useNavigate} from 'react-router-dom';
+import toast, {Toaster} from 'react-hot-toast';
 import AwsProvider, {AccountContext, RegionContext, RoleContext} from '../providers/AwsProvider';
+
 import ListInstancesTable from '../components/ListInstancesTable';
 
-// here we define
+// here we define props for used variables
 interface Props {
   credentials: Credentials | undefined;
   account: string | undefined;
   region: string | undefined;
   role: string | undefined;
-  startTime?: number;
 }
 
 const ListInstances: React.FC<Props> = ({credentials}) => {
@@ -23,8 +22,6 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
   const [role] = useContext(RoleContext);
   const [startTime, setStartTime] = useState<{[key: string]: number}>({});
   const [selectedInstanceId, setSelectedInstanceId] = useState<string | undefined>(undefined);
-
-  // intitialisation of EC2 Client with credentials from CredentialProvider
 
   // intitialisation of EC2 Client with credentials from CredentialProvider
   const createEC2Client = useCallback(async () => {
@@ -67,50 +64,52 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
       // There we get all instances for the given user credentials and AWS region in response
       const response = await ec2Client.send(new DescribeInstancesCommand({}));
       // Store the instances in the component state.
-      setInstances(
-        response?.Reservations?.flatMap(reservation => reservation.Instances)
-          .map(instance => instance)
-          .filter(instance => !!instance)
-      );
+      setInstances(response?.Reservations?.flatMap(reservation => reservation.Instances)?.filter(instance => !!instance));
     } catch (err: any) {
-      if (err.code) {
-        throw err.code;
+      if (err.code || err.message) {
+        throw err.code || err.message;
       } else {
         throw err;
       }
     }
   }, [createEC2Client]);
 
+  // Load all instances of account region and role  use default state if not sepcified for role and region
   useEffect(() => {
     if (account && role && region) {
+      setInstances([]);
       loadInstances();
     }
-    // ici je desactive l'erreur du linter qui demande d'y inclure loadinstances ce qui créé un boucle
   }, [account, role, region]); // eslint-disable-line
 
   // Refresh instances list if the selected instance or the instance state changes.
 
   useEffect(() => {
-    const refreshInstances = async () => {
-      await loadInstances();
-    };
+    const timer = setTimeout(async () => {
+      const refreshInstances = async () => {
+        await loadInstances();
+      };
 
-    if (selectedInstanceId && instances) {
-      const selectedInstance = instances.find(instance => instance?.InstanceId === selectedInstanceId);
-      if (!selectedInstance) {
-        setSelectedInstanceId(undefined);
+      if (selectedInstanceId && instances) {
+        const selectedInstance = instances.find(instance => instance?.InstanceId === selectedInstanceId);
+        if (!selectedInstance) {
+          setSelectedInstanceId(undefined);
+        }
       }
-    }
-    if (instances?.every(instance => instance?.State?.Code === 80 || instance?.State?.Code === 16)) return;
-    refreshInstances();
+      if (instances?.every(instance => instance?.State?.Code === 80 || instance?.State?.Code === 16)) return;
+      refreshInstances();
+    }, 1000);
+    return () => clearTimeout(timer);
   }, [instances, selectedInstanceId, loadInstances]);
 
   const navigate = useNavigate();
 
   function handleButtonClick() {
-    setInstances([]);
+    loadInstances();
     navigate('');
   }
+
+  // Using createEC2Client function and a selected Instance in arr to start EC2 instance
 
   const startInstance = async (selectedInstanceId: string | undefined) => {
     if (!selectedInstanceId || !credentials?.AccessKeyId || !credentials?.SecretAccessKey) return;
@@ -147,7 +146,6 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
           })
         );
         setStartTime({[selectedInstanceId]: Date.now()});
-
         await loadInstances();
       }
       if (instance_state === 16) {
@@ -191,7 +189,6 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
           );
         }
         await loadInstances();
-
         if (instance_state === 80) {
           toast.success(`Instances  ${selectedInstanceId} est arrété`);
         }
@@ -203,28 +200,22 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
   };
 
   return (
-    <div>
-      <AwsProvider>
-        <Container css={{display: 'flex', flexDirection: 'row-reverse', margin: 'auto'}}>
-          <Button css={{m: 10, mr: '5%'}} auto ghost rounded color="gradient" bordered onClick={() => handleButtonClick}>
-            Refresh
-          </Button>
-        </Container>
-        {account && region && role && (
-          <div>
-            {instances && (
-              <ListInstancesTable
-                instances={instances}
-                startTime={startTime[Object.keys(startTime)[0]]}
-                startInstance={startInstance}
-                stopInstance={stopInstance}
-              />
-            )}
-          </div>
-        )}
-        <Toaster />
-      </AwsProvider>
-    </div>
+    <AwsProvider>
+      {account && region && role && (
+        <div>
+          {instances && (
+            <ListInstancesTable
+              instances={instances}
+              startTime={startTime[Object.keys(startTime)[0]]}
+              startInstance={startInstance}
+              stopInstance={stopInstance}
+              handleButtonClick={() => handleButtonClick}
+            />
+          )}
+        </div>
+      )}
+      <Toaster />
+    </AwsProvider>
   );
 };
 
