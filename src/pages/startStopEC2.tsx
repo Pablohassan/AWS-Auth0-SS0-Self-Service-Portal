@@ -25,16 +25,6 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
   const [selectedInstanceId, setSelectedInstanceId] = useState<string | undefined>(undefined);
   const [visible, setVisible] = useState(true);
 
-  // Load all instances of account region and role  use default state if not sepcified
-
-  useEffect(() => {
-    if (account && role && region) {
-      loadInstances();
-    }
-  }, [account, role, region]);
-
-  console.log(instances?.[0]?.State?.Code);
-
   // intitialisation of EC2 Client with credentials from CredentialProvider
   const createEC2Client = useCallback(async () => {
     if (!credentials?.AccessKeyId || !credentials?.SecretAccessKey) return null;
@@ -92,7 +82,6 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
       setInstances([]);
       loadInstances();
     }
-    // ici je desactive l'erreur du linter qui demande d'y inclure loadinstances ce qui créé un boucle
   }, [account, role, region]); // eslint-disable-line
 
   // Refresh instances list if the selected instance or the instance state changes.
@@ -111,10 +100,11 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
       }
       if (instances?.every(instance => instance?.State?.Code === 80 || instance?.State?.Code === 16)) return;
       refreshInstances();
-    }, 2000);
+    }, 1000);
     return () => clearTimeout(timer);
   }, [instances, selectedInstanceId, loadInstances]);
 
+<<<<<<< HEAD
   // Load all instances of account region and role  use default state if not sepcified
 
   useEffect(() => {
@@ -144,6 +134,8 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
     return () => clearTimeout(timer);
   }, [instances, selectedInstanceId, loadInstances]);
 
+=======
+>>>>>>> 829b15b ([SSP] Chore : 0.0.1 Add Searchbar)
   const navigate = useNavigate();
 
   function handleButtonClick() {
@@ -244,7 +236,6 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
 
   return (
     <AwsProvider>
-      <Instructions visible={visible === true} onClose={() => setVisible(false)} />
       {account && region && role && (
         <div>
           {instances && (
