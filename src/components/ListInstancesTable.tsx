@@ -11,7 +11,7 @@ interface Props {
   handleButtonClick: () => void;
 }
 
-const ListInstancesTable: React.FC<Props> = ({instances, startInstance, stopInstance, startTime, handleButtonClick}) => {
+const ListInstancesTable: React.FC<Props> = ({instances, startInstance, stopInstance, handleButtonClick}) => {
   const [search, setSearch] = useState('');
 
   let delay: Boolean = false;
