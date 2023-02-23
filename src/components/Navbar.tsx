@@ -47,7 +47,7 @@ const NavbarGlobal: React.FC<Props> = ({children}) => {
   const handleRole = (event: any) => setRole(event.target.value);
 
   async function fetchData() {
-    const response = await fetch('https://test.self-service-portal.cp3s.xyz/config.json');
+    const response = await fetch('/config.json');
     const data = await response.json();
     return Promise.resolve(data);
   }

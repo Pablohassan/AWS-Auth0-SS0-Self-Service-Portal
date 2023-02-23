@@ -87,7 +87,7 @@ const ListInstancesTable: React.FC<Props> = ({instances, startInstance, stopInst
                 <Table.Cell>
                   {' '}
                   {delay === true ? 'warning -' : 'ok -'}
-                  {instance?.State?.Name === 'running' ? duration.humanize() : 'Non demmaré'}{' '}
+                  {instance?.State?.Name === 'running' ? duration.humanize() : 'Stopped'}{' '}
                 </Table.Cell>
                 <Table.Cell>
                   {instance?.State?.Code === 16 ? (
