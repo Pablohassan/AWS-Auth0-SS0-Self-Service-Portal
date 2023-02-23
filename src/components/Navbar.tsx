@@ -61,7 +61,7 @@ const NavbarGlobal: React.FC<Props> = ({children}) => {
   // }, []);
 
   return user ? (
-    <div>
+    <Grid css={{mw: '1450px'}}>
       <Navbar isBordered isCompact variant="sticky">
         <Grid css={{display: 'flex', backgroundColor: '$blue900', mb: 10}}>
           <img src={logo} height={50} alt="galilé logo" />
@@ -118,7 +118,7 @@ const NavbarGlobal: React.FC<Props> = ({children}) => {
           <Text h5>Connecté en tant que : {user?.name}</Text>
         </Navbar.Content>
       </Navbar>
-    </div>
+    </Grid>
   ) : null;
 };
 

@@ -25,7 +25,7 @@ const ListInstancesTable: React.FC<Props> = ({instances, startInstance, stopInst
   };
 
   return (
-    <>
+    <Grid css={{mw: '1450px'}}>
       <Grid.Container>
         <Input
           bordered
@@ -91,18 +91,18 @@ const ListInstancesTable: React.FC<Props> = ({instances, startInstance, stopInst
                 </Table.Cell>
                 <Table.Cell>
                   {instance?.State?.Code === 16 ? (
-                    <Button color="secondary" onClick={() => stopInstance(instance?.InstanceId)}>
+                    <Button size="sm" color="secondary" onClick={() => stopInstance(instance?.InstanceId)}>
                       Stop
                     </Button>
                   ) : instance?.State?.Code === 80 ? (
-                    <Button color="secondary" onClick={() => startInstance(instance?.InstanceId)}>
+                    <Button size="sm" color="secondary" onClick={() => startInstance(instance?.InstanceId)}>
                       Start
                     </Button>
                   ) : instance?.State?.Code === 64 ||
                     instance?.State?.Code === 48 ||
                     instance?.State?.Code === 32 ||
                     instance?.State?.Code === 0 ? (
-                    <Button size="md" disabled>
+                    <Button size="sm" disabled>
                       <Loading type="points" color="success" />
                     </Button>
                   ) : (
@@ -114,7 +114,7 @@ const ListInstancesTable: React.FC<Props> = ({instances, startInstance, stopInst
           })}
         </Table.Body>
       </Table>
-    </>
+    </Grid>
   );
 };
 export default ListInstancesTable;
