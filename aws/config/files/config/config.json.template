@@ -50,13 +50,7 @@
       "id": "466192354802",
       "name": "CGI"
     },
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
->>>>>>> 14032dd ([SSP] Chore : 0.0.2 Fix conf.json and add prettier , change size of  buttons)
-=======
->>>>>>> d451d9d ([SSP] Chore : 0.0.6, fix useEffect and dependencies)
     {
       "id": "778550099775",
       "name": "Galilée R&D"
@@ -113,13 +107,7 @@
       "id": "us-east-1",
       "name": "US East (N. Virginia)"
     },
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
->>>>>>> 14032dd ([SSP] Chore : 0.0.2 Fix conf.json and add prettier , change size of  buttons)
-=======
->>>>>>> d451d9d ([SSP] Chore : 0.0.6, fix useEffect and dependencies)
     {
       "id": "us-east-2",
       "name": "US East (Ohio)"
