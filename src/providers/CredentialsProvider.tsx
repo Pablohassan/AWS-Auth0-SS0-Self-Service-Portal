@@ -38,7 +38,7 @@ const CredentialsProvider: FC<Props> = ({children}) => {
         }
       })();
     }
-  }, [getIdTokenClaims, credentials]);
+  }, [getIdTokenClaims, credentials, regionDefault]);
 
   const content = credentials ? children({credentials}) : <div>Loading credentials...</div>;
   return content as ReactElement;
