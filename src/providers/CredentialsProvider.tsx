@@ -1,14 +1,16 @@
 import React, {FC, ReactElement, useEffect, useState} from 'react';
 import {AssumeRoleWithWebIdentityCommand, STSClient, Credentials} from '@aws-sdk/client-sts';
 import {useAuth0} from '@auth0/auth0-react';
-import awsdata from '../assets/awsdata.json';
 
 interface Props {
   children: ({credentials}: {credentials: Credentials | undefined}) => React.ReactNode;
 }
 const CredentialsProvider: FC<Props> = ({children}) => {
   const [credentials, setCredentials] = useState<Credentials | undefined>();
+
   const {getIdTokenClaims} = useAuth0();
+
+  const regionDefault = process.env.REACT_APP_AWS_DEFAULT_REGION;
 
   useEffect(() => {
     if (!credentials) {
@@ -17,7 +19,7 @@ const CredentialsProvider: FC<Props> = ({children}) => {
           const idToken = await getIdTokenClaims();
 
           const response = await new STSClient({
-            region: awsdata.defaultRegion.id
+            region: regionDefault
           }).send(
             new AssumeRoleWithWebIdentityCommand({
               WebIdentityToken: idToken?.__raw,
