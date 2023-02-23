@@ -50,6 +50,10 @@
       "id": "466192354802",
       "name": "CGI"
     },
+<<<<<<< HEAD
+=======
+
+>>>>>>> 14032dd ([SSP] Chore : 0.0.2 Fix conf.json and add prettier , change size of  buttons)
     {
       "id": "778550099775",
       "name": "Galilée R&D"
@@ -106,6 +110,10 @@
       "id": "us-east-1",
       "name": "US East (N. Virginia)"
     },
+<<<<<<< HEAD
+=======
+
+>>>>>>> 14032dd ([SSP] Chore : 0.0.2 Fix conf.json and add prettier , change size of  buttons)
     {
       "id": "us-east-2",
       "name": "US East (Ohio)"
