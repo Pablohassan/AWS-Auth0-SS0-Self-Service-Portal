@@ -14,7 +14,7 @@ yarn-error.log*
 
 # testing
 /coverage
-
+.eslintcache
 # misc
 .env
 .env*

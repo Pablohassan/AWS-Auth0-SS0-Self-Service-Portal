@@ -53,7 +53,7 @@ module.exports.resource = () => ({
               EventType: 'viewer-request',
               FunctionARN: fn.arnCloudfrontFunction(cloudfront.function.redirectIndexRequest.name)
             }
-          ],
+          ]
         },
         CacheBehaviors: [
           {
