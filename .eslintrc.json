@@ -1,84 +1,79 @@
 {
-  "root": true,
-  "parserOptions": {
-    "ecmaVersion": 2020,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
+    "root": true,
+    "parserOptions": {
+      "ecmaVersion": 2020,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      },
+      "project": "./tsconfig.eslint.json"
     },
-    "project": "./tsconfig.eslint.json"
-  },
-  "parser": "@typescript-eslint/parser",
-  "settings": {
-    "react": {
-      "pragma": "React",
-      "fragment": "Fragment",
-      "version": "detect"
-    }
-  },
-  "env": {
-    "browser": true,
-    "amd": true,
-    "node": true
-  },
-  "extends": [
-    "react-app",
-    "airbnb",
-    "airbnb-typescript",
-    "plugin:prettier/recommended" // Make sure this is always the last element in the array.
-  ],
-  "plugins": [
-    "import",
-    "jsx-a11y",
-    "react",
-    "react-hooks",
-    "simple-import-sort",
-    "prettier"
-  ],
-  "rules": {
-    "no-unsafe-optional-chaining": "off",
-    "no-nested-ternary": "off",
-    "react/no-unstable-nested-components": "off",
-    "no-promise-executor-return": "off",
-    "react/jsx-no-constructed-context-values": "off",
-    "no-alert": "off",
-    "no-underscore-dangle": "off",
-    "no-plusplus": "off",
-    "react/function-component-definition": "off",
-    "react-hooks/rules-of-hooks": "off",
-    "import/no-named-as-default": "off",
-    "react/display-name": "off",
-    "@typescript-eslint/naming-convention": "off",
-    "@typescript-eslint/no-unused-vars": ["warn"],
-    "import/no-unresolved": "off",
-    "prettier/prettier": "warn",
-    "camelcase": "off",
-    "import/prefer-default-export": "off",
-    "react/prop-types": "off",
-    "react/jsx-filename-extension": "off",
-    "react/jsx-props-no-spreading": "off",
-    "react/no-unused-prop-types": "off",
-    "react/react-in-jsx-scope": "off",
-    "react/require-default-props": "off",
-    "quotes": "off",
-    "jsx-a11y/anchor-is-valid": "off",
-    "no-shadow": "off",
-    "@typescript-eslint/no-shadow": ["off"],
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-    "no-use-before-define": [0],
-    "@typescript-eslint/no-use-before-define": [1],
-    "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-var-requires": "off",
-    "react/no-array-index-key": "off",
-    "jsx-a11y/no-noninteractive-element-interactions": "off",
-    "jsx-a11y/click-events-have-key-events": "off",
-    "react/jsx-curly-brace-presence": [
-      "error",
-      {
-        "props": "never",
-        "children": "ignore"
+    "parser": "@typescript-eslint/parser",
+    "settings": {
+      "react": {
+        "pragma": "React",
+        "fragment": "Fragment",
+        "version": "detect"
       }
-    ]
+    },
+    "env": {
+      "browser": true,
+      "amd": true,
+      "node": true
+    },
+    "extends": [
+      "react-app",
+      "airbnb",
+      "airbnb-typescript",
+      "plugin:prettier/recommended" // Make sure this is always the last element in the array.
+    ],
+    "plugins": ["import", "jsx-a11y", "react", "react-hooks", "simple-import-sort", "prettier"],
+    "rules": {
+      "no-unsafe-optional-chaining": "off",
+      "no-nested-ternary": "off",
+      "react/no-unstable-nested-components": "off",
+      "no-promise-executor-return": "off",
+      "react/jsx-no-constructed-context-values": "off",
+      "no-alert": "off",
+      "no-underscore-dangle": "off",
+      "no-plusplus": "off",
+      "react/function-component-definition": "off",
+      "react-hooks/rules-of-hooks": "off",
+      "import/no-named-as-default": "off",
+      "react/display-name": "off",
+      "@typescript-eslint/naming-convention": "off",
+      "@typescript-eslint/no-unused-vars": ["warn"],
+      "import/no-unresolved": "off",
+      "prettier/prettier": "warn",
+      "camelcase": "off",
+      "import/prefer-default-export": "off",
+      "react/prop-types": "off",
+      "react/jsx-filename-extension": "off",
+      "react/jsx-props-no-spreading": "off",
+      "react/no-unused-prop-types": "off",
+      "react/react-in-jsx-scope": "off",
+      "react/require-default-props": "off",
+      "quotes": "off",
+      "jsx-a11y/anchor-is-valid": "off",
+      "no-shadow": "off",
+      "@typescript-eslint/no-shadow": ["off"],
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "no-use-before-define": [0],
+      "@typescript-eslint/no-use-before-define": [1],
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-var-requires": "off",
+      "react/no-array-index-key": "off",
+      "jsx-a11y/no-noninteractive-element-interactions": "off",
+      "jsx-a11y/click-events-have-key-events": "off",
+      "react/jsx-curly-brace-presence": [
+        "error",
+        {
+          "props": "never",
+          "children": "ignore"
+        }
+      ]
+    }
   }
-}
+  
+  
