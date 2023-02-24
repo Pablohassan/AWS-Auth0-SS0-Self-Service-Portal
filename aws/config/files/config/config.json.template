@@ -1,7 +1,12 @@
 {
+  "defaultRegion": "xxxxxx",
   "federationRoleArn": "arn:aws:iam::XXXXXXXXXXXX:role/<env>-self-service-portal-federation",
+  "auth0": {
+    "domainUrl": "https://xxxxxx.eu.auth0.com",
+    "oidcClientId": "xxxxxxxxx"
+  },
   "accounts": [
-     {
+    {
       "id": "813896167686",
       "name": "Duodisplay"
     },
@@ -45,7 +50,6 @@
       "id": "466192354802",
       "name": "CGI"
     },
-
     {
       "id": "778550099775",
       "name": "Galilée R&D"
@@ -95,14 +99,15 @@
       "name": "Louis Vuitton"
     }
   ],
-
   "regions": [
-    {"id": "eu-west-1", "name": "Dublin"},
+    {
+      "id": "eu-west-1",
+      "name": "Dublin"
+    },
     {
       "id": "us-east-1",
       "name": "US East (N. Virginia)"
     },
-
     {
       "id": "us-east-2",
       "name": "US East (Ohio)"
@@ -171,14 +176,11 @@
       "id": "us-gov-east-1",
       "name": "US Gov East 1"
     }
+  ],
+  "roles": [
+    {
+      "id": "<env>-self-service-portal-operation",
+      "name": "Self Service Portal Operation (<env>)"
+    }
   ]
- ,
-  "roles": [{"id": "self-service-portal-operation", "name": "Self Service Portal Operation"}]
 }
-
-
-
-
-
-
- 
