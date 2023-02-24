@@ -43,5 +43,11 @@ module.exports = {
       input: path.join('aws', 'config', 'files', 'config', 'config.json.template'),
       bucket: s3.bucket.config.name
     }
+  ],
+  cloudFrontInvalidations: [
+    {
+      outputRefId: 'WebAppCloudFrontInstanceId',
+      paths: ['/*']
+    }
   ]
 };
