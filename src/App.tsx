@@ -4,6 +4,7 @@ import {useContext} from 'react';
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import {Auth0Provider} from '@auth0/auth0-react';
 import {Loading} from '@nextui-org/react';
 import Navbar from './components/Navbar';
@@ -13,6 +14,8 @@ import AwsProvider, {AccountContext, RegionContext, RoleContext} from './provide
 =======
 =======
 >>>>>>> 3ad5f09 ([Integration] Chore : integration rusmir code)
+=======
+>>>>>>> d9d5994 ([SSP] Chore : 0.0.3  conf.json move auth0Provider in app)
 import Navbar from './components/Navbar';
 import CredentialsProvider from './providers/CredentialsProvider';
 import RouterProviderSelf from './providers/RouterProviderSelf';
@@ -20,6 +23,8 @@ import {AccountContext, RegionContext, RoleContext} from './providers/AwsProvide
 =======
 =======
 >>>>>>> eec4707 ([Integration] Chore : integration rusmir code)
+=======
+>>>>>>> 98e79f5 ([SSP] Chore : 0.0.3  conf.json move auth0Provider in app)
 import {Auth0Provider} from '@auth0/auth0-react';
 import {Loading} from '@nextui-org/react';
 import Navbar from './components/Navbar';
@@ -177,41 +182,69 @@ export default function App() {
 =======
 =======
 import {useAuth0} from '@auth0/auth0-react';
+=======
+import {Auth0Provider} from '@auth0/auth0-react';
+import {Loading} from '@nextui-org/react';
+import {useConfig} from './providers/ConfigProvider';
+>>>>>>> 4945873 ([SSP] Chore : 0.0.3  conf.json move auth0Provider in app)
 import Navbar from './components/Navbar';
 import CredentialsProvider from './providers/CredentialsProvider';
-import LoginPage from './pages/LoginPage';
 import RouterProviderSelf from './providers/RouterProviderSelf';
 import AwsProvider, {AccountContext, RegionContext, RoleContext} from './providers/AwsProvider';
+import UiProvider from './components/UiProvider';
 
 export default function App() {
-  const {isAuthenticated} = useAuth0();
+  // const {isAuthenticated} = useAuth0();
+
   const [account] = useContext(AccountContext);
   const [region] = useContext(RegionContext);
   const [role] = useContext(RoleContext);
+  const {domainUrl, oidcClientId} = useConfig();
 
-  return isAuthenticated ? (
-    <AwsProvider>
-      <CredentialsProvider>
-        {credentials => (
-          <>
-            <Navbar
-              account={account}
-              region={region}
-              role={role}
-              credentials={credentials.credentials}
-              accounts={[]}
-              regions={[]}
-              roles={[]}
-            />
-            <RouterProviderSelf account={account} region={region} role={role} credentials={credentials.credentials} />
-          </>
-        )}
-      </CredentialsProvider>
-    </AwsProvider>
+  return domainUrl && oidcClientId ? (
+    <Auth0Provider domain={domainUrl} clientId={oidcClientId}>
+      <AwsProvider>
+        <CredentialsProvider>
+          {credentials => (
+            <UiProvider>
+              <Navbar
+                account={account}
+                region={region}
+                role={role}
+                credentials={credentials.credentials}
+                accounts={[]}
+                regions={[]}
+                roles={[]}
+              />
+              <RouterProviderSelf
+                account={account}
+                region={region}
+                role={role}
+                credentials={credentials.credentials}
+                oidcClientId={undefined}
+                domain={undefined}
+              />
+            </UiProvider>
+          )}
+        </CredentialsProvider>
+      </AwsProvider>
+    </Auth0Provider>
   ) : (
+<<<<<<< HEAD
     <LoginPage />
 >>>>>>> 3d7419c ([Integration] Chore : integration rusmir code)
+<<<<<<< HEAD
 >>>>>>> eec4707 ([Integration] Chore : integration rusmir code)
+<<<<<<< HEAD
 >>>>>>> 3ad5f09 ([Integration] Chore : integration rusmir code)
+=======
+=======
+=======
+    <Loading size="lg" css={{display: 'flex', mt: 150}}>
+      Waiting for configuration...
+    </Loading>
+>>>>>>> 4945873 ([SSP] Chore : 0.0.3  conf.json move auth0Provider in app)
+>>>>>>> 98e79f5 ([SSP] Chore : 0.0.3  conf.json move auth0Provider in app)
+>>>>>>> d9d5994 ([SSP] Chore : 0.0.3  conf.json move auth0Provider in app)
   );
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import {Auth0Provider} from '@auth0/auth0-react';
 <<<<<<< HEAD
@@ -71,14 +72,19 @@ root.render(
 =======
 const domain: string = process.env.REACT_APP_PARAM_PROVIDER_DOMAIN_URL as string;
 const clientId: string = process.env.REACT_APP_PARAM_PROVIDER_OIDC_CLIENT_ID as string;
+=======
+import {BrowserRouter} from 'react-router-dom';
+import App from './App';
+import ConfigProvider from './providers/ConfigProvider';
+>>>>>>> 4945873 ([SSP] Chore : 0.0.3  conf.json move auth0Provider in app)
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <BrowserRouter>
     <React.StrictMode>
-      <Auth0Provider domain={domain} clientId={clientId}>
+      <ConfigProvider>
         <App />
-      </Auth0Provider>
+      </ConfigProvider>
     </React.StrictMode>
   </BrowserRouter>
 >>>>>>> 3d7419c ([Integration] Chore : integration rusmir code)

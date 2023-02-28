@@ -1,4 +1,4 @@
-import {useContext} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {useAuth0} from '@auth0/auth0-react';
 import {Grid, Navbar, Text} from '@nextui-org/react';
 import {Credentials} from '@aws-sdk/client-sts';
@@ -39,27 +39,28 @@ interface Props {
 const NavbarGlobal: React.FC<Props> = ({children}) => {
   const {user} = useAuth0();
 
-  const [account, setAccount] = useContext(AccountContext); // eslint-disable-line
-  const [region, setRegion] = useContext(RegionContext); // eslint-disable-line
-  const [role, setRole] = useContext(RoleContext); // eslint-disable-line
-  const {configData, defaultRegion, defaultRole} = useConfig();
+  const [account, setAccount] = useContext(AccountContext);
+  const [region, setRegion] = useContext(RegionContext);
+  const [role, setRole] = useContext(RoleContext);
+
+  const [data, setData] = useState<Props | null>(null); // receving feched data
 
   const handleAccount = (event: any) => setAccount(event.currentTarget.value);
   const handleRegion = (event: any) => setRegion(event.currentTarget.value);
   const handleRole = (event: any) => setRole(event.currentTarget.value);
 
-  // en attente d'upload du fichier config.json
-  // async function fetchData(){;
-  // const response = await fetch('https://test.self-service-portal.cp3s.xyz/config.json');
-  //   const data = await response.json();
-  //   return Promise.resolve(data);
-  // }
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch('/conf.json');
+      const result = await response.json();
+      setData(result);
+    }
 
-  // useEffect(() => {
-  //   fetchData()
-  //     .then(data => setData(data))
-  //     .catch(error => console.error(error));
-  // }, []);
+    fetchData();
+  }, []);
+
+  const defaultRegion = data?.defaultRegion;
+  const defaultRole = data?.defaultRole;
 
   
 
@@ -78,7 +79,7 @@ const NavbarGlobal: React.FC<Props> = ({children}) => {
             <Text h6>
               <select onChange={handleAccount}>
                 <option>Select account</option>
-                {configData?.accounts.map(account => (
+                {data?.accounts.map(account => (
                   <option key={account.id} value={account.id}>
                     {account.id} - {account.name}
                   </option>
@@ -93,7 +94,7 @@ const NavbarGlobal: React.FC<Props> = ({children}) => {
             <Text h6>
               <select onChange={handleRegion}>
                 <option> Default selection {defaultRegion?.id} </option>
-                {configData?.regions.map((region: {id: string; name: string}) => (
+                {data?.regions.map((region: {id: string; name: string}) => (
                   <option key={region.id} value={region.id}>
                     {region.name}
                   </option>
@@ -108,7 +109,7 @@ const NavbarGlobal: React.FC<Props> = ({children}) => {
             <Text h6>
               <select onChange={handleRole}>
                 <option>Default {defaultRole?.id}</option>
-                {configData?.roles.map((role: {id: string; name: string}) => (
+                {data?.roles.map((role: {id: string; name: string}) => (
                   <option key={role.id} value={role.id}>
                     {role.name}
                   </option>

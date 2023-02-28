@@ -31,6 +31,10 @@ interface Props {
 
 >>>>>>> 3ad5f09 ([Integration] Chore : integration rusmir code)
   domain: string | undefined;
+
+
+
+
 }
 
 const RouterProviderSelf: React.FC<Props> = ({credentials, account, region, role}) => {
