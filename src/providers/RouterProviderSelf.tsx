@@ -11,6 +11,8 @@ interface Props {
   account: string | undefined;
   region: string | undefined;
   role: string | undefined;
+  oidcClientId: string | undefined;
+  domain: string | undefined;
 }
 
 const RouterProviderSelf: React.FC<Props> = ({credentials, account, region, role}) => {
