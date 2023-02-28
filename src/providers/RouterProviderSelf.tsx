@@ -12,7 +12,10 @@ interface Props {
   region: string | undefined;
   role: string | undefined;
   oidcClientId: string | undefined;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4945873 ([SSP] Chore : 0.0.3  conf.json move auth0Provider in app)
   domain: string | undefined;
 }
 

@@ -61,6 +61,8 @@ const NavbarGlobal: React.FC<Props> = ({children}) => {
   //     .catch(error => console.error(error));
   // }, []);
 
+  
+
   return user ? (
     <Grid css={{mw: '1400px'}}>
       <Navbar isBordered isCompact variant="sticky">
