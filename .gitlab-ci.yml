@@ -12,17 +12,15 @@ default:
   image: docker:latest
   tags:
     - aws-deployer
-  stage: buildAndDeploy
+  stage: deploy
   before_script:
     - docker info
   script:
-    - node_modules/.bin/awsd-env -c 'npm run build --prefix app'
     - echo "Deploy for stage ${APP_STAGE}"
     - node_modules/.bin/awsd-env -c 'npm run deploy:base --prefix app'
   artifacts:
     paths:
       - .build
-      - build
     expire_in: 7 weeks
 
 stages:
@@ -30,7 +28,7 @@ stages:
   - test
   - check
   - build
-  - buildAndDeploy
+  - deploy
 
 prepare:install:
   stage: prepare
@@ -90,9 +88,11 @@ build:app:
   artifacts:
     paths:
       - build
-    expire_in: 1 day
+    expire_in: 7 weeks
   only:
     - merge_requests
+    - main
+    - tags
 
 deploy:test:
   <<: *deploy_def

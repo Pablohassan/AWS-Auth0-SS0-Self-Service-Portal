@@ -1,7 +1,9 @@
 import {useContext, useEffect, useState} from 'react';
 import {useAuth0} from '@auth0/auth0-react';
 import {Grid, Navbar, Text} from '@nextui-org/react';
+
 import {Credentials} from '@aws-sdk/client-sts';
+
 import {AccountContext, RegionContext, RoleContext} from '../providers/AwsProvider';
 
 const logo = require('../assets/img/galilee-logo.png');
@@ -50,7 +52,7 @@ const NavbarGlobal: React.FC<Props> = ({children}) => {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch('/conf.json');
+      const response = await fetch(`${process.env.PUBLIC_URL}/conf.json`);
       const result = await response.json();
       setData(result);
     }
