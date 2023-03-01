@@ -71,7 +71,7 @@ export default function App() {
   const {domainUrl, oidcClientId} = useConfig();
 
   return domainUrl && oidcClientId ? (
-    <Auth0Provider domain={domainUrl} clientId={oidcClientId}>
+    <Auth0Provider domain={domainUrl} clientId={oidcClientId} redirectUri={window.location.origin}>
       <AwsProvider>
         <CredentialsProvider>
           {credentials => (

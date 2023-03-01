@@ -1,5 +1,6 @@
 import {useEffect} from 'react';
 import {useAuth0} from '@auth0/auth0-react';
+
 import {useLocation} from 'react-router-dom';
 
 export default function ProtectedRoutes({children}: any) {
@@ -12,7 +13,7 @@ export default function ProtectedRoutes({children}: any) {
         appState: {targetUrl: location.pathname}
       });
     }
-  }, [isAuthenticated, loginWithRedirect, location]);
+  }, [isAuthenticated, location, loginWithRedirect]);
 
   return isAuthenticated ? children : null;
 }
