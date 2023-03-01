@@ -204,7 +204,6 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
   return (
     <AwsProvider>
       <Instructions visible={visible === true} onClose={() => setVisible(false)} />
-
       {account && region && role && (
         <div>
           {instances && (

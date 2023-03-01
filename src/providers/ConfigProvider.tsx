@@ -45,7 +45,7 @@ export function ConfigProvider({children}: ConfigProviderProps) {
   useEffect(() => {
     async function fetchConfig() {
       try {
-        const response = await fetch('/conf.json');
+        const response = await fetch(`${process.env.PUBLIC_URL}/conf.json`);
         const config = await response.json();
 
         setAuth0Domain(config.domainUrl);

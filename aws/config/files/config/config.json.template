@@ -1,7 +1,16 @@
 {
+  "defaultRegion": "xxxxxx",
   "federationRoleArn": "arn:aws:iam::XXXXXXXXXXXX:role/<env>-self-service-portal-federation",
+  "auth0": {
+    "domainUrl": "https://xxxxxx.eu.auth0.com",
+    "oidcClientId": "xxxxxxxxx"
+  },
   "accounts": [
+<<<<<<< HEAD
      {
+=======
+    {
+>>>>>>> 8aa25dcacc8668095eb01359b750a60f3be602cb
       "id": "813896167686",
       "name": "Duodisplay"
     },
@@ -45,7 +54,10 @@
       "id": "466192354802",
       "name": "CGI"
     },
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8aa25dcacc8668095eb01359b750a60f3be602cb
     {
       "id": "778550099775",
       "name": "Galilée R&D"
@@ -97,12 +109,22 @@
   ],
 
   "regions": [
+<<<<<<< HEAD
     {"id": "eu-west-1", "name": "Dublin"},
+=======
+    {
+      "id": "eu-west-1",
+      "name": "Dublin"
+    },
+>>>>>>> 8aa25dcacc8668095eb01359b750a60f3be602cb
     {
       "id": "us-east-1",
       "name": "US East (N. Virginia)"
     },
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8aa25dcacc8668095eb01359b750a60f3be602cb
     {
       "id": "us-east-2",
       "name": "US East (Ohio)"
@@ -171,9 +193,19 @@
       "id": "us-gov-east-1",
       "name": "US Gov East 1"
     }
+<<<<<<< HEAD
   ]
  ,
   "roles": [{"id": "self-service-portal-operation", "name": "Self Service Portal Operation"}]
+=======
+  ],
+  "roles": [
+    {
+      "id": "<env>-self-service-portal-operation",
+      "name": "Self Service Portal Operation (<env>)"
+    }
+  ]
+>>>>>>> 8aa25dcacc8668095eb01359b750a60f3be602cb
 }
 
 

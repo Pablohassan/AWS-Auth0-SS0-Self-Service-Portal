@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useState} from 'react';
 import {AssumeRoleWithWebIdentityCommand, STSClient, Credentials} from '@aws-sdk/client-sts';
-import {Loading} from '@nextui-org/react';
 import {useAuth0} from '@auth0/auth0-react';
+import {Loading} from '@nextui-org/react';
 import {useConfig} from './ConfigProvider';
 
 interface Region {

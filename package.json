@@ -35,9 +35,9 @@
     ]
   },
   "dependencies": {
-    "@auth0/auth0-react": "^2.0.0",
+    "@auth0/auth0-react": "^1.12.0",
     "@aws-sdk/client-ec2": "^3.269.0",
-    "@aws-sdk/client-sts": "^3.267.0",
+    "@aws-sdk/client-sts": "^3.281.0",
     "@babel/helper-module-transforms": "^7.20.11",
     "@nextui-org/react": "^1.0.0-beta.12",
     "moment": "^2.29.4",
@@ -48,7 +48,6 @@
     "web-vitals": "^3.1.1"
   },
   "devDependencies": {
-    "@galilee/aws-deployer": "^2.3.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
@@ -71,7 +70,7 @@
     "husky": "^8.0.3",
     "lint-staged": "^13.1.2",
     "prettier": "^2.8.4",
-    "react-scripts": "^5.0.1", 
-     "typescript": "^4.9.5"
+    "react-scripts": "^5.0.1",
+    "typescript": "^4.9.5"
   }
 }

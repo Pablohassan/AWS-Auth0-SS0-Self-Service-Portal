@@ -3,7 +3,7 @@ import {useAuth0} from '@auth0/auth0-react';
 import {Credentials} from '@aws-sdk/client-sts';
 import ProtectedRoutes from '../components/ProtectedRoutes';
 import LoginPage from '../pages/LoginPage';
-import ListInstancesEC2 from '../pages/startStopEC2';
+import ListInstances from '../pages/startStopEC2';
 import NotFoundPage from '../pages/PageError404';
 
 interface Props {
@@ -12,6 +12,7 @@ interface Props {
   region: string | undefined;
   role: string | undefined;
   oidcClientId: string | undefined;
+
   domain: string | undefined;
 }
 
@@ -21,27 +22,18 @@ const RouterProviderSelf: React.FC<Props> = ({credentials, account, region, role
   return (
     <Routes>
       {isAuthenticated ? (
-        <>
-          <Route
-            path=""
-            element={
-              <ProtectedRoutes>
-                <ListInstancesEC2 account={account} region={region} role={role} credentials={credentials} />
-              </ProtectedRoutes>
-            }
-          />
-          <Route
-            path="*"
-            element={
-              <ProtectedRoutes>
-                <NotFoundPage />
-              </ProtectedRoutes>
-            }
-          />
-        </>
+        <Route
+          path=""
+          element={
+            <ProtectedRoutes>
+              <ListInstances account={account} region={region} role={role} credentials={credentials} />
+            </ProtectedRoutes>
+          }
+        />
       ) : (
         <Route path="/" element={<LoginPage />} />
       )}
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 };

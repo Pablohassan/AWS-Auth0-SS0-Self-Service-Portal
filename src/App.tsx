@@ -2,16 +2,14 @@ import './App.css';
 import {useContext} from 'react';
 import {Auth0Provider} from '@auth0/auth0-react';
 import {Loading} from '@nextui-org/react';
-import {useConfig} from './providers/ConfigProvider';
 import Navbar from './components/Navbar';
 import CredentialsProvider from './providers/CredentialsProvider';
 import RouterProviderSelf from './providers/RouterProviderSelf';
 import AwsProvider, {AccountContext, RegionContext, RoleContext} from './providers/AwsProvider';
 import UiProvider from './components/UiProvider';
+import {useConfig} from './providers/ConfigProvider';
 
 export default function App() {
-  // const {isAuthenticated} = useAuth0();
-
   const [account] = useContext(AccountContext);
   const [region] = useContext(RegionContext);
   const [role] = useContext(RoleContext);
@@ -37,8 +35,8 @@ export default function App() {
                 region={region}
                 role={role}
                 credentials={credentials.credentials}
-                oidcClientId={undefined}
-                domain={undefined}
+                oidcClientId={oidcClientId}
+                domain={domainUrl}
               />
             </UiProvider>
           )}
