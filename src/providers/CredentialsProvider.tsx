@@ -65,7 +65,7 @@ const CredentialsProvider: FC<Props> = ({children}) => {
     };
   }, [defaultRegion?.id, federationRoleArn?.arn, getIdTokenClaims]);
 
-  if (!defaultRegion?.id || !federationRoleArn?.arn) {
+  if (!defaultRegion?.id || !federationRoleArn?.arn || loaded === false) {
     return (
       <Loading size="lg" css={{display: 'flex', mt: 150}}>
         Loading credentials...
