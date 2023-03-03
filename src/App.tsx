@@ -44,10 +44,15 @@ export default function App() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 9007ed7 ([SSP] Chore : 0.0.6, fix useEffect and dependencies)
 =======
 >>>>>>> 62a00f0 ([SSP] Chore : 0.0.6, fix useEffect and dependencies)
+=======
+=======
+>>>>>>> 9007ed7 ([SSP] Chore : 0.0.6, fix useEffect and dependencies)
+>>>>>>> bae98b5 ([SSP] Chore : 0.0.6, fix useEffect and dependencies)
 
 <<<<<<< HEAD
 =======
