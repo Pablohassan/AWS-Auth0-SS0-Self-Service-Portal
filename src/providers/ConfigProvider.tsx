@@ -74,10 +74,12 @@ export function ConfigProvider({children}: ConfigProviderProps) {
     fetchConfig();
   }, []);
 
-  return (
+  return defaultRegion && defaultRole ? (
     <ConfigContext.Provider value={{auth0DomainUrl, auth0ClientId, defaultRegion, defaultRole, federationRoleArn, configData}}>
       {children}
     </ConfigContext.Provider>
+  ) : (
+    <div>Config provider loading data...</div>
   );
 }
 

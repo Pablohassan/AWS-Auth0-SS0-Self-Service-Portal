@@ -11,8 +11,7 @@ interface Props {
   account: string | undefined;
   region: string | undefined;
   role: string | undefined;
-  oidcClientId: string | undefined;
-
+  clientId: string | undefined;
   domain: string | undefined;
 }
 
