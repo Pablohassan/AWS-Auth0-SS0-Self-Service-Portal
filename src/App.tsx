@@ -17,6 +17,9 @@ export default function App() {
   const [role] = useContext(RoleContext);
   const {auth0DomainUrl, auth0ClientId} = useConfig();
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 9007ed7 ([SSP] Chore : 0.0.6, fix useEffect and dependencies)
 
   return auth0DomainUrl && auth0ClientId ? (
     <Auth0Provider domain={auth0DomainUrl} clientId={auth0ClientId}>
