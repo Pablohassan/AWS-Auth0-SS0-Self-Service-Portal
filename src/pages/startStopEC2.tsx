@@ -100,7 +100,7 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
       }
       if (instances?.every(instance => instance?.State?.Code === 80 || instance?.State?.Code === 16)) return;
       refreshInstances();
-    }, 1000);
+    }, 2000);
     return () => clearTimeout(timer);
   }, [instances, selectedInstanceId, loadInstances]);
 

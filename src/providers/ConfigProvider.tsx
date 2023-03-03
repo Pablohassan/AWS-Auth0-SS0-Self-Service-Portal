@@ -17,16 +17,16 @@ interface FederationRoleArn {
 }
 
 interface ConfigContextProps {
-  domainUrl: string;
-  oidcClientId: string;
+  auth0DomainUrl: string;
+  auth0ClientId: string;
   defaultRegion?: Region;
   defaultRole?: Role;
   federationRoleArn?: FederationRoleArn;
 }
 
 export const ConfigContext = createContext<ConfigContextProps>({
-  domainUrl: '',
-  oidcClientId: ''
+  auth0DomainUrl: '',
+  auth0ClientId: ''
 });
 
 interface ConfigProviderProps {
@@ -36,8 +36,8 @@ interface ConfigProviderProps {
 export const useConfig = () => useContext(ConfigContext);
 
 export function ConfigProvider({children}: ConfigProviderProps) {
-  const [domainUrl, setAuth0Domain] = useState<string>('');
-  const [oidcClientId, setAuth0ClientId] = useState<string>('');
+  const [auth0DomainUrl, setAuth0Domain] = useState<string>('');
+  const [auth0ClientId, setAuth0ClientId] = useState<string>('');
   const [defaultRegion, setDefaultRegion] = useState<Region>();
   const [defaultRole, setDefaultRole] = useState<Region>();
   const [federationRoleArn, setFederationRoleArn] = useState<FederationRoleArn>();
@@ -45,7 +45,7 @@ export function ConfigProvider({children}: ConfigProviderProps) {
   useEffect(() => {
     async function fetchConfig() {
       try {
-        const response = await fetch(`${process.env.PUBLIC_URL}/conf.json`);
+        const response = await fetch(`/config.json`);
         const config = await response.json();
 
         setAuth0Domain(config.domainUrl);
@@ -62,7 +62,7 @@ export function ConfigProvider({children}: ConfigProviderProps) {
   }, []);
 
   return (
-    <ConfigContext.Provider value={{domainUrl, oidcClientId, defaultRegion, defaultRole, federationRoleArn}}>
+    <ConfigContext.Provider value={{auth0DomainUrl, auth0ClientId, defaultRegion, defaultRole, federationRoleArn}}>
       {children}
     </ConfigContext.Provider>
   );

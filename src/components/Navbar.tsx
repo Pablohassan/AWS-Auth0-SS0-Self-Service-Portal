@@ -40,9 +40,9 @@ interface Props {
 const NavbarGlobal: React.FC<Props> = ({children}) => {
   const {user} = useAuth0();
 
-  const [account, setAccount] = useContext(AccountContext);
-  const [region, setRegion] = useContext(RegionContext);
-  const [role, setRole] = useContext(RoleContext);
+  const [account, setAccount] = useContext(AccountContext); // eslint-disable-line
+  const [region, setRegion] = useContext(RegionContext); // eslint-disable-line
+  const [role, setRole] = useContext(RoleContext); // eslint-disable-line
 
   const [data, setData] = useState<Props | null>(null); // receving feched data
 

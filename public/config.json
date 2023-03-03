@@ -1,12 +1,6 @@
 {
-  "defaultRegion": "xxxxxx",
-  "federationRoleArn": "arn:aws:iam::XXXXXXXXXXXX:role/<env>-self-service-portal-federation",
-  "auth0": {
-    "domainUrl": "https://xxxxxx.eu.auth0.com",
-    "oidcClientId": "xxxxxxxxx"
-  },
   "accounts": [
-     {
+    {
       "id": "813896167686",
       "name": "Duodisplay"
     },
@@ -50,6 +44,7 @@
       "id": "466192354802",
       "name": "CGI"
     },
+
     {
       "id": "778550099775",
       "name": "Galilée R&D"
@@ -101,11 +96,11 @@
   ],
 
   "regions": [
-    {"id": "eu-west-1", "name": "Dublin"},
     {
       "id": "us-east-1",
       "name": "US East (N. Virginia)"
     },
+
     {
       "id": "us-east-2",
       "name": "US East (Ohio)"
@@ -174,14 +169,25 @@
       "id": "us-gov-east-1",
       "name": "US Gov East 1"
     }
-  ]
- ,
-  "roles": [{"id": "self-service-portal-operation", "name": "Self Service Portal Operation"}]
+  ],
+
+  "defaultRegion": {
+    "id": "eu-west-3",
+    "name": "EU (Paris)"
+  },
+  "roles": [{"id": "galilee_roles", "name": "Role test self-service EC2"}],
+
+  "defaultRole": {
+    "id": "galilee_roles",
+    "name": "Role test self-service EC2"
+  },
+
+  "federationRoleArn":{"arn":"arn:aws:iam::778550099775:role/RS-Galilee-Auth0-EC2-Descr"},
+
+  "auth0": {
+    "domainUrl": "dev-2tzcxk6fxs37cc3r.eu.auth0.com",
+    "oidcClientId": "cIbxFzk1QHKKp1TeWU9Xm26xBP9oMP8D"
+  },
+
+  "domainUrl": "dev-2tzcxk6fxs37cc3r.eu.auth0.com", "oidcClientId": "cIbxFzk1QHKKp1TeWU9Xm26xBP9oMP8D"
 }
-
-
-
-
-
-
- 
