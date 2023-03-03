@@ -16,6 +16,7 @@ export default function App() {
   const [region] = useContext(RegionContext);
   const [role] = useContext(RoleContext);
   const {auth0DomainUrl, auth0ClientId} = useConfig();
+<<<<<<< HEAD
 
   return auth0DomainUrl && auth0ClientId ? (
     <Auth0Provider domain={auth0DomainUrl} clientId={auth0ClientId}>
@@ -69,9 +70,11 @@ export default function App() {
   const [region] = useContext(RegionContext);
   const [role] = useContext(RoleContext);
   const {domainUrl, oidcClientId} = useConfig();
+=======
+>>>>>>> d451d9d ([SSP] Chore : 0.0.6, fix useEffect and dependencies)
 
-  return domainUrl && oidcClientId ? (
-    <Auth0Provider domain={domainUrl} clientId={oidcClientId} redirectUri={window.location.origin}>
+  return auth0DomainUrl && auth0ClientId ? (
+    <Auth0Provider domain={auth0DomainUrl} clientId={auth0ClientId}>
       <AwsProvider>
         <CredentialsProvider>
           {credentials => (
@@ -90,8 +93,13 @@ export default function App() {
                 region={region}
                 role={role}
                 credentials={credentials.credentials}
+<<<<<<< HEAD
                 oidcClientId={undefined}
                 domain={undefined}
+=======
+                oidcClientId={auth0ClientId}
+                domain={auth0DomainUrl}
+>>>>>>> d451d9d ([SSP] Chore : 0.0.6, fix useEffect and dependencies)
               />
             </UiProvider>
           )}
