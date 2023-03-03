@@ -22,3 +22,7 @@ yarn-error.log*
 # app
 .build
 /build
+
+#config aws
+
+/public/config.json

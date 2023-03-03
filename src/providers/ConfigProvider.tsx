@@ -11,6 +11,11 @@ interface Role {
   name: string;
 }
 
+interface Account {
+  id: string;
+  name: string;
+}
+
 interface FederationRoleArn {
   arn: string;
   name: string;
@@ -22,6 +27,7 @@ interface ConfigContextProps {
   defaultRegion?: Region;
   defaultRole?: Role;
   federationRoleArn?: FederationRoleArn;
+  configData?: Object;
 }
 
 export const ConfigContext = createContext<ConfigContextProps>({
@@ -32,6 +38,11 @@ export const ConfigContext = createContext<ConfigContextProps>({
 interface ConfigProviderProps {
   children: React.ReactNode;
 }
+interface Object {
+  accounts: Account[];
+  regions: Region[];
+  roles: Role[];
+}
 
 export const useConfig = () => useContext(ConfigContext);
 
@@ -41,11 +52,12 @@ export function ConfigProvider({children}: ConfigProviderProps) {
   const [defaultRegion, setDefaultRegion] = useState<Region>();
   const [defaultRole, setDefaultRole] = useState<Region>();
   const [federationRoleArn, setFederationRoleArn] = useState<FederationRoleArn>();
+  const [configData, setConfigData] = useState<Object | undefined>(); // receving feched data
 
   useEffect(() => {
     async function fetchConfig() {
       try {
-        const response = await fetch(`/config.json`);
+        const response = await fetch('/config.json');
         const config = await response.json();
 
         setAuth0Domain(config.domainUrl);
@@ -53,6 +65,7 @@ export function ConfigProvider({children}: ConfigProviderProps) {
         setDefaultRegion(config.defaultRegion);
         setDefaultRole(config.defaultRole);
         setFederationRoleArn(config.federationRoleArn);
+        setConfigData(config);
       } catch (error) {
         toast.error('Failed to fetch configuration file:');
       }
@@ -62,7 +75,7 @@ export function ConfigProvider({children}: ConfigProviderProps) {
   }, []);
 
   return (
-    <ConfigContext.Provider value={{auth0DomainUrl, auth0ClientId, defaultRegion, defaultRole, federationRoleArn}}>
+    <ConfigContext.Provider value={{auth0DomainUrl, auth0ClientId, defaultRegion, defaultRole, federationRoleArn, configData}}>
       {children}
     </ConfigContext.Provider>
   );
