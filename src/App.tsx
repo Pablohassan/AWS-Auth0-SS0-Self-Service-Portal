@@ -13,10 +13,10 @@ export default function App() {
   const [account] = useContext(AccountContext);
   const [region] = useContext(RegionContext);
   const [role] = useContext(RoleContext);
-  const {domainUrl, oidcClientId} = useConfig();
+  const {auth0DomainUrl, auth0ClientId} = useConfig();
 
-  return domainUrl && oidcClientId ? (
-    <Auth0Provider domain={domainUrl} clientId={oidcClientId} redirectUri={window.location.origin}>
+  return auth0DomainUrl && auth0ClientId ? (
+    <Auth0Provider domain={auth0DomainUrl} clientId={auth0ClientId}>
       <AwsProvider>
         <CredentialsProvider>
           {credentials => (
@@ -35,8 +35,8 @@ export default function App() {
                 region={region}
                 role={role}
                 credentials={credentials.credentials}
-                oidcClientId={oidcClientId}
-                domain={domainUrl}
+                oidcClientId={auth0ClientId}
+                domain={auth0DomainUrl}
               />
             </UiProvider>
           )}

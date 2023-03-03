@@ -1,8 +1,10 @@
 import {Modal, Button, Text, Grid, Container} from '@nextui-org/react';
 import {useAuth0} from '@auth0/auth0-react';
+import {useConfig} from '../providers/ConfigProvider';
 
 export default function Modale({visible, onClose}: any) {
   const {user} = useAuth0();
+  const {defaultRegion, defaultRole} = useConfig();
 
   return (
     <div>
@@ -18,27 +20,27 @@ export default function Modale({visible, onClose}: any) {
         <Modal.Header>
           <Container>
             <Text weight="bold" css={{textAlign: 'center'}} h3>
-              Bienvenu dans votre Portail Self Service{' '}
+              Welcome to the Self Service Portal
             </Text>
-            <Text h4>Connecté en tant que : {user?.name}</Text>
+            <Text h4>Connected as : {user?.name}</Text>
           </Container>
         </Modal.Header>
         <Grid.Container gap={2}>
           <Modal.Body>
             <Text weight="bold" h5>
-              Vous pouvez à partir de ce portail, visualiser et contrôler des instances AWS EC2 prédefinies par la team infra.
+              From this portal, you can view and control AWS EC2 instances predefined by the Galilee infra team.
             </Text>
             <Text weight="bold" h5>
-              Afin d`afficher les Instances AWS veuillez selectionner Account la Region et le Role cible
+              In order to view AWS Instances please select Account the Region and the target Role
             </Text>
             <Text weight="bold" css={{m: 10}} color="error" h4>
-              !Attention la région et le rôle par default selectionnés sont :
+              !Please note that the default region and role selected are :
             </Text>
             <Text weight="bold" css={{m: 10}} h4>
-              `eu-west-3`
+              {defaultRegion?.id} {defaultRegion?.name}
             </Text>
             <Text weight="bold" h4>
-              `galilee_roles`
+              {defaultRole?.id} {defaultRole?.name}
             </Text>
           </Modal.Body>
         </Grid.Container>

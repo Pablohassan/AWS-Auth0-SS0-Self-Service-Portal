@@ -29,9 +29,9 @@ const CredentialsProvider: FC<Props> = ({children}) => {
 
   useEffect(() => {
     let isMounted = true;
-    const delay = setTimeout(async () => {
+
+    const fetchCredentials = async () => {
       try {
-        if (!isMounted) return;
         const idToken = await getIdTokenClaims();
         if (!idToken) {
           throw new Error('Could not retrieve idToken');
@@ -47,25 +47,27 @@ const CredentialsProvider: FC<Props> = ({children}) => {
           })
         );
 
-        setCredentials(response?.Credentials);
+        if (isMounted) {
+          setCredentials(response?.Credentials);
+          setLoaded(true);
+        }
       } catch (err: any) {
         if (err.code) {
           throw new Error(err.error);
         } else {
           throw err;
         }
-      } finally {
-        if (isMounted) setLoaded(true);
       }
-    }, 1000);
-
+    };
+    if (!loaded) {
+      fetchCredentials();
+    }
     return () => {
       isMounted = false;
-      clearTimeout(delay);
     };
-  }, [defaultRegion?.id, federationRoleArn?.arn, getIdTokenClaims]);
+  });
 
-  if (!defaultRegion?.id || !federationRoleArn?.arn || loaded === false) {
+  if (!credentials) {
     return (
       <Loading size="lg" css={{display: 'flex', mt: 150}}>
         Loading credentials...
