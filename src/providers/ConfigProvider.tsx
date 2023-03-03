@@ -60,8 +60,8 @@ export function ConfigProvider({children}: ConfigProviderProps) {
         const response = await fetch('/config.json');
         const config = await response.json();
 
-        setAuth0Domain(config.domainUrl);
-        setAuth0ClientId(config.oidcClientId);
+        setAuth0Domain(config.auth0.domainUrl);
+        setAuth0ClientId(config.auth0.oidcClientId);
         setDefaultRegion(config.defaultRegion);
         setDefaultRole(config.defaultRole);
         setFederationRoleArn(config.federationRoleArn);
@@ -74,10 +74,12 @@ export function ConfigProvider({children}: ConfigProviderProps) {
     fetchConfig();
   }, []);
 
-  return (
+  return defaultRegion && defaultRole ? (
     <ConfigContext.Provider value={{auth0DomainUrl, auth0ClientId, defaultRegion, defaultRole, federationRoleArn, configData}}>
       {children}
     </ConfigContext.Provider>
+  ) : (
+    <div>Config provider loading data...</div>
   );
 }
 
