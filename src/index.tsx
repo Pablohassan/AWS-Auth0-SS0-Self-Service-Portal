@@ -1,16 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-import {Auth0Provider} from '@auth0/auth0-react';
-<<<<<<< HEAD
-// eslint-disable-next-line import/no-extraneous-dependencies
->>>>>>> 3d7419c ([Integration] Chore : integration rusmir code)
 import {BrowserRouter} from 'react-router-dom';
 import App from './App';
 <<<<<<< HEAD
 import {ConfigProvider} from './providers/ConfigProvider';
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -34,24 +28,31 @@ import App from './App';
 >>>>>>> 06a0e2e ([SSP] Chore : Fixed linter errors)
 >>>>>>> 3177d30 ([SSP] Chore : Fixed linter errors)
 >>>>>>> fa02cf2 ([SSP] Chore : Fixed linter errors)
+=======
+import Auth0Provider from './providers/Auth0Provider';
+import AwsProvider from './providers/AwsProvider';
+>>>>>>> 62a00f0 ([SSP] Chore : 0.0.6, fix useEffect and dependencies)
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
-<<<<<<< HEAD
 root.render(
 <<<<<<< HEAD
   <React.StrictMode>
     <BrowserRouter>
       <ConfigProvider>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <App />
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> 62a00f0 ([SSP] Chore : 0.0.6, fix useEffect and dependencies)
         <AwsProvider>
           <Auth0Provider>
             <App />
           </Auth0Provider>
         </AwsProvider>
+<<<<<<< HEAD
 =======
         <App />
 >>>>>>> 33001af ([Integration] Chore : add last rusmir code part)
@@ -89,15 +90,13 @@ root.render(
   </BrowserRouter>
 >>>>>>> 3d7419c ([Integration] Chore : integration rusmir code)
 >>>>>>> 3ad5f09 ([Integration] Chore : integration rusmir code)
+=======
+      </ConfigProvider>
+    </BrowserRouter>
+  </React.StrictMode>
+>>>>>>> 62a00f0 ([SSP] Chore : 0.0.6, fix useEffect and dependencies)
 );
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-reportWebVitals(console.log);
->>>>>>> 3d7419c ([Integration] Chore : integration rusmir code)
-=======
->>>>>>> 06a0e2e ([SSP] Chore : Fixed linter errors)
