@@ -25,4 +25,5 @@ yarn-error.log*
 
 #config aws
 
-/public/config.json
+/public
+config.json
