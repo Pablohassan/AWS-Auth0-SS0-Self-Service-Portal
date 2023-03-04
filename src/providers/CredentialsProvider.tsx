@@ -1,8 +1,11 @@
 import React, {FC, useEffect, useState} from 'react';
 import {AssumeRoleWithWebIdentityCommand, STSClient, Credentials} from '@aws-sdk/client-sts';
 import {useAuth0} from '@auth0/auth0-react';
+
 import {Loading} from '@nextui-org/react';
 import {useConfig} from './ConfigProvider';
+
+
 
 interface Region {
   id: string;
@@ -27,15 +30,19 @@ const CredentialsProvider: FC<Props> = ({children}) => {
   const {defaultRegion, federationRoleArn} = useConfig();
   const {getIdTokenClaims} = useAuth0();
 
+
   useEffect(() => {
     let isMounted = true;
 
     const fetchCredentials = async () => {
+
       try {
         const idToken = await getIdTokenClaims();
         if (!idToken) {
           throw new Error('Could not retrieve idToken');
         }
+
+      
 
         const response = await new STSClient({
           region: defaultRegion?.id
@@ -73,6 +80,7 @@ const CredentialsProvider: FC<Props> = ({children}) => {
         Loading credentials...
       </Loading>
     );
+
   }
 
   return <>{children({credentials})}</>;

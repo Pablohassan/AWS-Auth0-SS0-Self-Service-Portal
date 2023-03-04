@@ -4,9 +4,17 @@ import {BrowserRouter} from 'react-router-dom';
 import App from './App';
 <<<<<<< HEAD
 import {ConfigProvider} from './providers/ConfigProvider';
+<<<<<<< HEAD
 =======
 import ConfigProvider from './providers/ConfigProvider';
 >>>>>>> 4945873 ([SSP] Chore : 0.0.3  conf.json move auth0Provider in app)
+=======
+<<<<<<< HEAD
+import Auth0Provider from './providers/Auth0Provider';
+import AwsProvider from './providers/AwsProvider';
+=======
+>>>>>>> 33001af ([Integration] Chore : add last rusmir code part)
+>>>>>>> 77ccc13 ([Integration] Chore : add last rusmir code part)
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -15,7 +23,19 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <ConfigProvider>
+<<<<<<< HEAD
         <App />
+=======
+<<<<<<< HEAD
+        <AwsProvider>
+          <Auth0Provider>
+            <App />
+          </Auth0Provider>
+        </AwsProvider>
+=======
+        <App />
+>>>>>>> 33001af ([Integration] Chore : add last rusmir code part)
+>>>>>>> 77ccc13 ([Integration] Chore : add last rusmir code part)
       </ConfigProvider>
     </BrowserRouter>
   </React.StrictMode>

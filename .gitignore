@@ -25,4 +25,13 @@ yarn-error.log*
 
 #config aws
 
+<<<<<<< HEAD
 public/config.json
+=======
+<<<<<<< HEAD
+/public
+config.json
+=======
+public/config.json
+>>>>>>> 33001af ([Integration] Chore : add last rusmir code part)
+>>>>>>> 77ccc13 ([Integration] Chore : add last rusmir code part)
