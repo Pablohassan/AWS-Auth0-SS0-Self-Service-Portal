@@ -1,21 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {Auth0Provider} from '@auth0/auth0-react';
 import {BrowserRouter} from 'react-router-dom';
 import App from './App';
-
-const domain: string = process.env.REACT_APP_PARAM_PROVIDER_DOMAIN_URL as string;
-const clientId: string = process.env.REACT_APP_PARAM_PROVIDER_OIDC_CLIENT_ID as string;
+import {ConfigProvider} from './providers/ConfigProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+
 root.render(
-  <BrowserRouter>
-    <React.StrictMode>
-      <Auth0Provider domain={domain} clientId={clientId}>
+  <React.StrictMode>
+    <BrowserRouter>
+      <ConfigProvider>
         <App />
-      </Auth0Provider>
-    </React.StrictMode>
-  </BrowserRouter>
+      </ConfigProvider>
+    </BrowserRouter>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
