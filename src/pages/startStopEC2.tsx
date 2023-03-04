@@ -6,6 +6,7 @@ import toast, {Toaster} from 'react-hot-toast';
 import AwsProvider, {AccountContext, RegionContext, RoleContext} from '../providers/AwsProvider';
 
 import ListInstancesTable from '../components/ListInstancesTable';
+import Instructions from '../components/Instructions';
 
 // here we define props for used variables
 interface Props {
@@ -22,6 +23,7 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
   const [role] = useContext(RoleContext);
   const [startTime, setStartTime] = useState<{[key: string]: number}>({});
   const [selectedInstanceId, setSelectedInstanceId] = useState<string | undefined>(undefined);
+  const [visible, setVisible] = useState(true);
 
   // intitialisation of EC2 Client with credentials from CredentialProvider
   const createEC2Client = useCallback(async () => {
@@ -98,7 +100,7 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
       }
       if (instances?.every(instance => instance?.State?.Code === 80 || instance?.State?.Code === 16)) return;
       refreshInstances();
-    }, 1000);
+    }, 2000);
     return () => clearTimeout(timer);
   }, [instances, selectedInstanceId, loadInstances]);
 
@@ -201,6 +203,7 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
 
   return (
     <AwsProvider>
+      <Instructions visible={visible === true} onClose={() => setVisible(false)} />
       {account && region && role && (
         <div>
           {instances && (

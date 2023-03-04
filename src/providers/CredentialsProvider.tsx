@@ -1,47 +1,81 @@
-import React, {FC, ReactElement, useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {AssumeRoleWithWebIdentityCommand, STSClient, Credentials} from '@aws-sdk/client-sts';
 import {useAuth0} from '@auth0/auth0-react';
+import {Loading} from '@nextui-org/react';
+import {useConfig} from './ConfigProvider';
+
+interface Region {
+  id: string;
+  name: string;
+}
+
+interface FederationRoleArn {
+  arn: string;
+  name: string;
+}
 
 interface Props {
+  defaultRegion?: Region;
+  federationRoleArn?: FederationRoleArn;
+
   children: ({credentials}: {credentials: Credentials | undefined}) => React.ReactNode;
 }
 const CredentialsProvider: FC<Props> = ({children}) => {
   const [credentials, setCredentials] = useState<Credentials | undefined>();
+  const [loaded, setLoaded] = useState(false);
 
+  const {defaultRegion, federationRoleArn} = useConfig();
   const {getIdTokenClaims} = useAuth0();
 
-  const regionDefault = process.env.REACT_APP_AWS_DEFAULT_REGION;
-
   useEffect(() => {
-    if (!credentials) {
-      (async () => {
-        try {
-          const idToken = await getIdTokenClaims();
+    let isMounted = true;
 
-          const response = await new STSClient({
-            region: regionDefault
-          }).send(
-            new AssumeRoleWithWebIdentityCommand({
-              WebIdentityToken: idToken?.__raw,
-              RoleArn: process.env.REACT_APP_WEB_IDENTITY_ROLE_ARN,
-              RoleSessionName: 'test'
-            })
-          );
-
-          setCredentials(response?.Credentials);
-        } catch (err: any) {
-          if (err.code) {
-            throw new Error(err.error);
-          } else {
-            throw err;
-          }
+    const fetchCredentials = async () => {
+      try {
+        const idToken = await getIdTokenClaims();
+        if (!idToken) {
+          throw new Error('Could not retrieve idToken');
         }
-      })();
-    }
-  }, [getIdTokenClaims, credentials, regionDefault]);
 
-  const content = credentials ? children({credentials}) : <div>Loading credentials...</div>;
-  return content as ReactElement;
+        const response = await new STSClient({
+          region: defaultRegion?.id
+        }).send(
+          new AssumeRoleWithWebIdentityCommand({
+            WebIdentityToken: idToken?.__raw,
+            RoleArn: federationRoleArn?.arn,
+            RoleSessionName: 'test'
+          })
+        );
+
+        if (isMounted) {
+          setCredentials(response?.Credentials);
+          setLoaded(true);
+        }
+      } catch (err: any) {
+        if (err.code) {
+          throw new Error(err.error);
+        } else {
+          throw err;
+        }
+      }
+    };
+    if (!loaded) {
+      fetchCredentials();
+    }
+    return () => {
+      isMounted = false;
+    };
+  });
+
+  if (!credentials) {
+    return (
+      <Loading size="lg" css={{display: 'flex', mt: 150}}>
+        Loading credentials...
+      </Loading>
+    );
+  }
+
+  return <>{children({credentials})}</>;
 };
 
 export default CredentialsProvider;
