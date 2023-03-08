@@ -2,7 +2,6 @@ import {useContext, useEffect, useState} from 'react';
 import {useAuth0} from '@auth0/auth0-react';
 import {Grid, Navbar, Text} from '@nextui-org/react';
 import {Credentials} from '@aws-sdk/client-sts';
-import {useConfig} from '../providers/ConfigProvider';
 import {AccountContext, RegionContext, RoleContext} from '../providers/AwsProvider';
 
 const logo = require('../assets/img/galilee-logo.png');
@@ -61,8 +60,6 @@ const NavbarGlobal: React.FC<Props> = ({children}) => {
 
   const defaultRegion = data?.defaultRegion;
   const defaultRole = data?.defaultRole;
-
-  
 
   return user ? (
     <Grid css={{mw: '1400px'}}>

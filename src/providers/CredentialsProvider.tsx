@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useState} from 'react';
 import {AssumeRoleWithWebIdentityCommand, STSClient, Credentials} from '@aws-sdk/client-sts';
-import {useConfig} from './ConfigProvider';
 import {useAuth0} from '@auth0/auth0-react';
+import {useConfig} from './ConfigProvider';
 import LoginPage from '../pages/LoginPage';
 
 interface Region {
@@ -27,36 +27,30 @@ const CredentialsProvider: FC<Props> = ({children}) => {
   const {getIdTokenClaims} = useAuth0();
   const {defaultRegion, federationRoleArn} = useConfig();
 
-  console.log(credentials);
-  console.log(getIdTokenClaims);
-
   useEffect(() => {
     let isMounted = true;
 
     const fetchCredentials = async () => {
-     
-        if (!isMounted) return;
-        const idToken = await getIdTokenClaims();
-        if (!idToken) {
-          throw new Error('Could not retrieve idToken');
-        }
+      if (!isMounted) return;
+      const idToken = await getIdTokenClaims();
+      if (!idToken) {
+        throw new Error('Could not retrieve idToken');
+      }
 
-        const response = await new STSClient({
-          region: defaultRegion?.id
-        }).send(
-          new AssumeRoleWithWebIdentityCommand({
-            WebIdentityToken: idToken?.__raw,
-            RoleArn: federationRoleArn?.arn,
-            RoleSessionName: 'test'
-          })
-        );
+      const response = await new STSClient({
+        region: defaultRegion?.id
+      }).send(
+        new AssumeRoleWithWebIdentityCommand({
+          WebIdentityToken: idToken?.__raw,
+          RoleArn: federationRoleArn?.arn,
+          RoleSessionName: 'test'
+        })
+      );
 
-        if (isMounted) {
-          setCredentials(response?.Credentials);
-          setLoaded(true);
-        }
-        console.log(credentials);
-     
+      if (isMounted) {
+        setCredentials(response?.Credentials);
+        setLoaded(true);
+      }
     };
     if (!loaded) {
       fetchCredentials();
@@ -74,4 +68,3 @@ const CredentialsProvider: FC<Props> = ({children}) => {
 };
 
 export default CredentialsProvider;
-
