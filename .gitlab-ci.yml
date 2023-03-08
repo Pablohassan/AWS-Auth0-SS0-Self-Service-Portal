@@ -5,6 +5,10 @@ variables:
 
 default:
   image: galilee/stack-deployer:1.1.0
+  before_script:
+    - git submodule sync
+    - git submodule update --init --remote
+    - bash lint/scripts/ci.sh --check-mr
 
 .deploy_template: &deploy_def
   services:
@@ -13,9 +17,8 @@ default:
   tags:
     - aws-deployer
   stage: deploy
-  before_script:
-    - docker info
   script:
+    - docker info
     - echo "Deploy for stage ${APP_STAGE}"
     - node_modules/.bin/awsd-env -c 'npm run deploy:base --prefix app'
   artifacts:
