@@ -3,7 +3,7 @@ import {AssumeRoleCommand, Credentials, STSClient} from '@aws-sdk/client-sts';
 import {DescribeInstancesCommand, EC2Client, Instance, StartInstancesCommand, StopInstancesCommand} from '@aws-sdk/client-ec2';
 import {useNavigate} from 'react-router-dom';
 import toast, {Toaster} from 'react-hot-toast';
-import AwsProvider, {AccountContext, RegionContext, RoleContext} from '../providers/AwsProvider';
+import {AccountContext, RegionContext, RoleContext} from '../providers/AwsProvider';
 
 import ListInstancesTable from '../components/ListInstancesTable';
 import Instructions from '../components/Instructions';
@@ -71,7 +71,7 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
       if (err.code || err.message) {
         throw err.code || err.message;
       } else {
-        console.log(err);
+        throw err;
       }
     }
   }, [createEC2Client]);
@@ -100,42 +100,10 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
       }
       if (instances?.every(instance => instance?.State?.Code === 80 || instance?.State?.Code === 16)) return;
       refreshInstances();
-    }, 2000);
+    }, 3000);
     return () => clearTimeout(timer);
   }, [instances, selectedInstanceId, loadInstances]);
 
-<<<<<<< HEAD
-  // Load all instances of account region and role  use default state if not sepcified
-
-  useEffect(() => {
-    if (account && role && region) {
-      setInstances([]);
-      loadInstances();
-    }
-  }, [account, role, region]);
-
-  // Refresh instances list if the selected instance or the instance state changes.
-
-  useEffect(() => {
-    const timer = setTimeout(async () => {
-      const refreshInstances = async () => {
-        await loadInstances();
-      };
-
-      if (selectedInstanceId && instances) {
-        const selectedInstance = instances.find(instance => instance?.InstanceId === selectedInstanceId);
-        if (!selectedInstance) {
-          setSelectedInstanceId(undefined);
-        }
-      }
-      if (instances?.every(instance => instance?.State?.Code === 80 || instance?.State?.Code === 16)) return;
-      refreshInstances();
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, [instances, selectedInstanceId, loadInstances]);
-
-=======
->>>>>>> 829b15b ([SSP] Chore : 0.0.1 Add Searchbar)
   const navigate = useNavigate();
 
   function handleButtonClick() {
@@ -182,7 +150,6 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
         setStartTime({[selectedInstanceId]: Date.now()});
         await loadInstances();
       }
-      console.log('reloaded');
       if (instance_state === 16) {
         toast.success(`Instances  ${selectedInstanceId} est demmaré`);
       }
@@ -235,9 +202,8 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
   };
 
   return (
-    <AwsProvider>
+    <>
       <Instructions visible={visible === true} onClose={() => setVisible(false)} />
-
       {account && region && role && (
         <div>
           {instances && (
@@ -252,7 +218,7 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
         </div>
       )}
       <Toaster />
-    </AwsProvider>
+    </>
   );
 };
 

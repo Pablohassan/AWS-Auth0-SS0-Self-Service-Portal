@@ -11,30 +11,8 @@ interface Props {
   account: string | undefined;
   region: string | undefined;
   role: string | undefined;
-<<<<<<< HEAD
-<<<<<<< HEAD
-  oidcClientId: string | undefined;
-<<<<<<< HEAD
-
-=======
->>>>>>> 4945873 ([SSP] Chore : 0.0.3  conf.json move auth0Provider in app)
-=======
-<<<<<<< HEAD
   clientId: string | undefined;
-=======
-  oidcClientId: string | undefined;
-
->>>>>>> 33001af ([Integration] Chore : add last rusmir code part)
->>>>>>> 77ccc13 ([Integration] Chore : add last rusmir code part)
-=======
-  oidcClientId: string | undefined;
-
->>>>>>> 3ad5f09 ([Integration] Chore : integration rusmir code)
   domain: string | undefined;
-
-
-
-
 }
 
 const RouterProviderSelf: React.FC<Props> = ({credentials, account, region, role}) => {
