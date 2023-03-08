@@ -3,8 +3,8 @@ import {AssumeRoleCommand, Credentials, STSClient} from '@aws-sdk/client-sts';
 import {DescribeInstancesCommand, EC2Client, Instance, StartInstancesCommand, StopInstancesCommand} from '@aws-sdk/client-ec2';
 import {useNavigate} from 'react-router-dom';
 import toast, {Toaster} from 'react-hot-toast';
+import {debounce} from 'lodash';
 import {AccountContext, RegionContext, RoleContext} from '../providers/AwsProvider';
-
 import ListInstancesTable from '../components/ListInstancesTable';
 import Instructions from '../components/Instructions';
 
@@ -86,24 +86,25 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
 
   // Refresh instances list if the selected instance or the instance state changes.
 
+  const refreshInstances = debounce(async () => {
+    await loadInstances();
+  }, 3500); // debounce for 500ms
+
   useEffect(() => {
-    const timer = setTimeout(async () => {
-      const refreshInstances = async () => {
-        await loadInstances();
-      };
+    if (selectedInstanceId && instances) {
+      const selectedInstance = instances.find(instance => instance?.InstanceId === selectedInstanceId);
 
-      if (selectedInstanceId && instances) {
-        const selectedInstance = instances.find(instance => instance?.InstanceId === selectedInstanceId);
-        if (!selectedInstance) {
-          setSelectedInstanceId(undefined);
-        }
+      if (!selectedInstance) {
+        setSelectedInstanceId(undefined);
       }
-      if (instances?.every(instance => instance?.State?.Code === 80 || instance?.State?.Code === 16)) return;
-      refreshInstances();
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, [instances, selectedInstanceId, loadInstances]);
+    }
 
+    if (instances?.every(instance => instance?.State?.Code === 80 || instance?.State?.Code === 16)) {
+      return;
+    }
+
+    refreshInstances();
+  }, [instances, selectedInstanceId, refreshInstances]);
   const navigate = useNavigate();
 
   function handleButtonClick() {

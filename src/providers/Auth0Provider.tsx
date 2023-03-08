@@ -14,7 +14,7 @@ const Auth0ProviderWithNavigate = ({children}: Props) => {
 
   const domain = auth0DomainUrl;
   const clientId = auth0ClientId;
-  const redirectUri = 'https://test.self-service-portal.cp3s.xyz/';
+  const redirectUri = window.location.origin;
 
   const onRedirectCallback = (appState: any) => {
     navigate(appState?.returnTo || window.location.pathname);

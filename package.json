@@ -40,6 +40,8 @@
     "@aws-sdk/client-sts": "3.267.0",
     "@babel/helper-module-transforms": "7.20.11",
     "@nextui-org/react": "1.0.0-beta.12",
+    "@types/lodash": "^4.14.191",
+    "lodash": "^4.17.21",
     "moment": "2.29.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
