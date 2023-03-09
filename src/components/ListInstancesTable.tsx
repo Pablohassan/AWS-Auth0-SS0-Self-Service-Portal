@@ -11,10 +11,12 @@ interface Props {
   handleButtonClick: () => void;
 }
 
-const ListInstancesTable: React.FC<Props> = ({instances, startInstance, stopInstance, handleButtonClick}) => {
+const ListInstancesTable: React.FC<Props> = ({instances, startInstance, stopInstance}) => {
   const [search, setSearch] = useState('');
 
   let delay: Boolean = false;
+
+  //  # get InstanceSort
 
   const letSearch = (e: any) => {
     setSearch(e.target.value);
@@ -25,7 +27,7 @@ const ListInstancesTable: React.FC<Props> = ({instances, startInstance, stopInst
   };
 
   return (
-    <Grid css={{mw: '1450px'}}>
+    <Grid css={{mw: '1400px'}}>
       <Grid.Container>
         <Input
           bordered
@@ -43,23 +45,19 @@ const ListInstancesTable: React.FC<Props> = ({instances, startInstance, stopInst
           placeholder="Search EC2 Instance"
           onChange={letSearch}
         />
-
-        <Button css={{m: 20, mr: '9%'}} auto ghost rounded color="gradient" bordered onClick={handleButtonClick}>
-          Refresh
-        </Button>
       </Grid.Container>
 
       <Table aria-label="EC2 list" striped selectionMode="single">
         <Table.Header>
-          <Table.Column>Name</Table.Column>
-          <Table.Column>Tag env</Table.Column>
-          <Table.Column>Tag project</Table.Column>
-          <Table.Column>Tag subproject</Table.Column>
-          <Table.Column>Instance Id</Table.Column>
-          <Table.Column>Instance Status</Table.Column>
-          <Table.Column>Instance Type</Table.Column>
-          <Table.Column>Started Since</Table.Column>
-          <Table.Column>Actions</Table.Column>
+          <Table.Column allowsSorting>Name</Table.Column>
+          <Table.Column allowsSorting>Tag env</Table.Column>
+          <Table.Column allowsSorting>Tag project</Table.Column>
+          <Table.Column allowsSorting>Tag subproject</Table.Column>
+          <Table.Column allowsSorting>Instance Id</Table.Column>
+          <Table.Column allowsSorting>Instance Status</Table.Column>
+          <Table.Column allowsSorting>Instance Type</Table.Column>
+          <Table.Column allowsSorting>Started Since</Table.Column>
+          <Table.Column allowsSorting>Actions</Table.Column>
         </Table.Header>
 
         <Table.Body aria-label="table">
@@ -87,23 +85,23 @@ const ListInstancesTable: React.FC<Props> = ({instances, startInstance, stopInst
                 <Table.Cell>
                   {' '}
                   {delay === true ? 'warning -' : 'ok -'}
-                  {instance?.State?.Name === 'running' ? duration.humanize() : 'Stopped'}{' '}
+                  {instance?.State?.Name === 'running' ? duration.humanize() : 'not launch'}
                 </Table.Cell>
-                <Table.Cell>
+                <Table.Cell css={{fontSize: '12px'}}>
                   {instance?.State?.Code === 16 ? (
-                    <Button size="sm" color="secondary" onClick={() => stopInstance(instance?.InstanceId)}>
+                    <Button size="sm" shadow color="warning" onPress={() => stopInstance(instance?.InstanceId)}>
                       Stop
                     </Button>
                   ) : instance?.State?.Code === 80 ? (
-                    <Button size="sm" color="secondary" onClick={() => startInstance(instance?.InstanceId)}>
+                    <Button size="sm" shadow color="success" onPress={() => startInstance(instance?.InstanceId)}>
                       Start
                     </Button>
                   ) : instance?.State?.Code === 64 ||
                     instance?.State?.Code === 48 ||
                     instance?.State?.Code === 32 ||
                     instance?.State?.Code === 0 ? (
-                    <Button size="sm" disabled>
-                      <Loading type="points" color="success" />
+                    <Button flat size="sm" disabled color="success">
+                      <Loading type="points" color="error" />
                     </Button>
                   ) : (
                     <Button color="error">Unknown State</Button>

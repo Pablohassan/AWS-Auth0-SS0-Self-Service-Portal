@@ -52,7 +52,7 @@ const NavbarGlobal: React.FC<Props> = ({children}) => {
     <Grid css={{mw: '1400px'}}>
       <Navbar isBordered isCompact variant="sticky">
         <Grid css={{display: 'flex', backgroundColor: '$blue900', mb: 10}}>
-          <img src={logo} height={50} alt="galilé logo" />
+          <img src={logo} height={50} alt="galilée logo" />
         </Grid>
 
         <Navbar.Content enableCursorHighlight hideIn="xs" variant="underline">

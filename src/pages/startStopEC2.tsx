@@ -1,12 +1,10 @@
 import {useState, useContext, useEffect, useCallback} from 'react';
 import {AssumeRoleCommand, Credentials, STSClient} from '@aws-sdk/client-sts';
 import {DescribeInstancesCommand, EC2Client, Instance, StartInstancesCommand, StopInstancesCommand} from '@aws-sdk/client-ec2';
-import {useNavigate} from 'react-router-dom';
 import toast, {Toaster} from 'react-hot-toast';
-import AwsProvider, {AccountContext, RegionContext, RoleContext} from '../providers/AwsProvider';
-
+import {Button} from '@nextui-org/react';
+import {AccountContext, RegionContext, RoleContext} from '../providers/AwsProvider';
 import ListInstancesTable from '../components/ListInstancesTable';
-import Instructions from '../components/Instructions';
 
 // here we define props for used variables
 interface Props {
@@ -23,7 +21,7 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
   const [role] = useContext(RoleContext);
   const [startTime, setStartTime] = useState<{[key: string]: number}>({});
   const [selectedInstanceId, setSelectedInstanceId] = useState<string | undefined>(undefined);
-  const [visible, setVisible] = useState(true);
+  const [instanceStateCode, setInstanceStateCode] = useState<number | undefined>(undefined);
 
   // intitialisation of EC2 Client with credentials from CredentialProvider
   const createEC2Client = useCallback(async () => {
@@ -86,29 +84,28 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
 
   // Refresh instances list if the selected instance or the instance state changes.
 
+  const refreshInstances = async () => {
+    await loadInstances();
+  }; // debounce for 500ms
+
   useEffect(() => {
-    const timer = setTimeout(async () => {
-      const refreshInstances = async () => {
-        await loadInstances();
-      };
-
-      if (selectedInstanceId && instances) {
-        const selectedInstance = instances.find(instance => instance?.InstanceId === selectedInstanceId);
-        if (!selectedInstance) {
-          setSelectedInstanceId(undefined);
-        }
+    if (selectedInstanceId && instances) {
+      const selectedInstance = instances.find(instance => instance?.InstanceId === selectedInstanceId);
+      if (selectedInstance) {
+        setInstanceStateCode(selectedInstance.State?.Code);
       }
-      if (instances?.every(instance => instance?.State?.Code === 80 || instance?.State?.Code === 16)) return;
-      refreshInstances();
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, [instances, selectedInstanceId, loadInstances]);
+    }
 
-  const navigate = useNavigate();
+    if (instances?.every(instance => instance?.State?.Code === 80 || instance?.State?.Code === 16)) {
+      return;
+    }
+
+    refreshInstances();
+  }, [instanceStateCode]); // eslint-disable-line
 
   function handleButtonClick() {
+    setInstances([]);
     loadInstances();
-    navigate('');
   }
 
   // Using createEC2Client function and a selected Instance in arr to start EC2 instance
@@ -202,23 +199,35 @@ const ListInstances: React.FC<Props> = ({credentials}) => {
   };
 
   return (
-    <AwsProvider>
-      <Instructions visible={visible === true} onClose={() => setVisible(false)} />
+    <>
       {account && region && role && (
         <div>
           {instances && (
-            <ListInstancesTable
-              instances={instances}
-              startTime={startTime[Object.keys(startTime)[0]]}
-              startInstance={startInstance}
-              stopInstance={stopInstance}
-              handleButtonClick={() => handleButtonClick}
-            />
+            <>
+              <Button
+                css={{m: 20, mr: '9%', display: 'flex', flexDirection: 'row'}}
+                auto
+                ghost
+                rounded
+                color="gradient"
+                bordered
+                onClick={handleButtonClick} // eslint-disable-line
+              >
+                Refresh
+              </Button>
+              <ListInstancesTable
+                instances={instances}
+                startTime={startTime[Object.keys(startTime)[0]]}
+                startInstance={startInstance}
+                stopInstance={stopInstance}
+                handleButtonClick={() => handleButtonClick}
+              />
+            </>
           )}
         </div>
       )}
       <Toaster />
-    </AwsProvider>
+    </>
   );
 };
 
